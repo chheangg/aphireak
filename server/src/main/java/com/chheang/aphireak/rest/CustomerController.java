@@ -1,7 +1,7 @@
 package com.chheang.aphireak.rest;
 
 import com.chheang.aphireak.entity.Customer;
-import com.chheang.aphireak.rest.responses.CustomerList;
+import com.chheang.aphireak.rest.responses.ListResponse;
 import com.chheang.aphireak.rest.responses.CustomerListElement;
 import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.service.CustomerService;
@@ -23,14 +23,14 @@ public class CustomerController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<CustomerList>getCustomers() {
+    public ResponseEntity<ListResponse<CustomerListElement>>getCustomers() {
         List<Customer> customers = customerService.getCustomers();
         List<CustomerListElement> formattedCustomers =
                         customers
                                 .stream()
                                 .map(c -> new CustomerListElement(c.getId(), c.getFullName()))
                                 .collect(toList());
-        return new ResponseEntity<>(new CustomerList(formattedCustomers), HttpStatus.OK);
+        return new ResponseEntity<>(new ListResponse(formattedCustomers), HttpStatus.OK);
 
     }
 
