@@ -32,6 +32,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void createCustomer(Customer customer) {
+        customer.setId(0);
         entityManager.persist(customer);
     }
 
@@ -46,5 +47,15 @@ public class CustomerDAOImpl implements CustomerDAO {
         newCustomer.setVehicles(customer.getVehicles());
         entityManager.merge(newCustomer);
         return newCustomer;
+    }
+
+    @Override
+    public void deleteCustomerById(int id) {
+        Customer customer = entityManager.find(Customer.class, id);
+        if (customer == null) {
+            // TODO: add Custom Exception
+            throw new RuntimeException();
+        }
+        entityManager.remove(customer);
     }
 }

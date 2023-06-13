@@ -7,4 +7,5 @@ public interface CustomerService {
     Customer findCustomerById(int id);
     void createCustomer(Customer customer);
     Customer updateCustomer(int id, Customer customer);
+    void deleteCustomerById(int id);
 }

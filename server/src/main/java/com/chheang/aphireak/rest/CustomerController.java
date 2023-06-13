@@ -3,8 +3,8 @@ package com.chheang.aphireak.rest;
 import com.chheang.aphireak.entity.Customer;
 import com.chheang.aphireak.rest.responses.CustomerList;
 import com.chheang.aphireak.rest.responses.CustomerListElement;
+import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.service.CustomerService;
-import jakarta.persistence.TypedQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +48,11 @@ public class CustomerController {
     @PutMapping("/{id}")
     public Customer updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
         return customerService.updateCustomer(id, customer);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<IdResponse> deleteCustomer(@PathVariable int id) {
+        customerService.deleteCustomerById(id);
+        return new ResponseEntity<>(new IdResponse(id), HttpStatus.ACCEPTED);
     }
 }
