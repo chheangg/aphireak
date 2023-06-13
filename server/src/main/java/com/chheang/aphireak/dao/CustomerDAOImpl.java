@@ -34,4 +34,17 @@ public class CustomerDAOImpl implements CustomerDAO {
     public void createCustomer(Customer customer) {
         entityManager.persist(customer);
     }
+
+    @Override
+    public Customer updateCustomer(int id, Customer newCustomer) {
+        Customer customer = entityManager.find(Customer.class, id);
+        if (customer == null) {
+            // TODO: add Custom Exception
+            throw new RuntimeException();
+        }
+        newCustomer.setId(id);
+        newCustomer.setVehicles(customer.getVehicles());
+        entityManager.merge(newCustomer);
+        return newCustomer;
+    }
 }
