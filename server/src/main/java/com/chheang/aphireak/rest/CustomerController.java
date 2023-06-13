@@ -38,4 +38,10 @@ public class CustomerController {
     public Customer findCustomerById(@PathVariable int id) {
         return customerService.findCustomerById(id);
     }
+
+    @PostMapping("/")
+    public Customer createCustomer(@RequestBody Customer customer) {
+        customerService.createCustomer(customer);
+        return customer;
+    }
 }

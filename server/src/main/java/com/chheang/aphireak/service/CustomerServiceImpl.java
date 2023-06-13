@@ -2,6 +2,7 @@ package com.chheang.aphireak.service;
 
 import com.chheang.aphireak.dao.CustomerDAO;
 import com.chheang.aphireak.entity.Customer;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,5 +23,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer findCustomerById(int id) {
         return customerDAO.findCustomerById(id);
+    }
+
+    @Override
+    @Transactional
+    public void createCustomer(Customer customer) {
+        customerDAO.createCustomer(customer);
     }
 }

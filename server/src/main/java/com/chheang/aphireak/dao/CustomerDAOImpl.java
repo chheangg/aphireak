@@ -29,4 +29,9 @@ public class CustomerDAOImpl implements CustomerDAO {
         System.out.println(id);
         return entityManager.find(Customer.class, id);
     }
+
+    @Override
+    public void createCustomer(Customer customer) {
+        entityManager.persist(customer);
+    }
 }

@@ -7,4 +7,6 @@ import java.util.List;
 public interface CustomerDAO {
     List<Customer> getCustomers();
     Customer findCustomerById(int id);
+
+    void createCustomer(Customer customer);
 }

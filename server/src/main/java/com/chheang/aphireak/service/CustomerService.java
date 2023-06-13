@@ -5,4 +5,5 @@ import java.util.List;
 public interface CustomerService {
     List<Customer> getCustomers();
     Customer findCustomerById(int id);
+    void createCustomer(Customer customer);
 }
