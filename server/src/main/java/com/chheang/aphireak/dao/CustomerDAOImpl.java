@@ -26,8 +26,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer findCustomerById(int id) {
-        System.out.println(id);
-        return entityManager.find(Customer.class, id);
+        Customer customer = entityManager.find(Customer.class, id);
+        if (customer == null) {
+            throw new RuntimeException();
+        }
+        return customer;
     }
 
     @Override

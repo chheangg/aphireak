@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface VehicleService {
     List<Vehicle> getVehicles();
+    Vehicle findVehiclesById(int id);
 }

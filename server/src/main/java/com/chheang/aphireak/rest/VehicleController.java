@@ -7,13 +7,10 @@ import com.chheang.aphireak.service.VehicleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -38,5 +35,10 @@ public class VehicleController {
                         )))
                         .toList();
         return new ResponseEntity<>(new ListResponse<>(formattedVehicles), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public Vehicle findVehicleById(@PathVariable int id) {
+        return vehicleService.findVehiclesById(id);
     }
 }

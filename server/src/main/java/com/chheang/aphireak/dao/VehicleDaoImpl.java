@@ -21,4 +21,13 @@ public class VehicleDaoImpl implements VehicleDAO {
         TypedQuery<Vehicle> query = entityManager.createQuery("FROM Vehicle", Vehicle.class);
         return query.getResultList();
     }
+
+    @Override
+    public Vehicle findVehicleById(int id) {
+        Vehicle vehicle = entityManager.find(Vehicle.class, id);
+        if (vehicle == null) {
+            throw new RuntimeException();
+        }
+        return vehicle;
+    }
 }
