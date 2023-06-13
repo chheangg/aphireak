@@ -5,6 +5,7 @@ public class CustomerListElement {
     private String fullName;
     private String url;
 
+
     public CustomerListElement() {
 
     }
@@ -12,7 +13,7 @@ public class CustomerListElement {
     public CustomerListElement(int id, String fullName) {
         this.id = id;
         this.fullName = fullName;
-        this.url = "/customers/" + id;
+        this.url = "/api/customers/" + id;
     }
 
     public int getId() {

@@ -7,9 +7,7 @@ import com.chheang.aphireak.service.CustomerService;
 import jakarta.persistence.TypedQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +32,10 @@ public class CustomerController {
                                 .collect(toList());
         return new ResponseEntity<>(new CustomerList(formattedCustomers), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/{id}")
+    public Customer findCustomerById(@PathVariable int id) {
+        return customerService.findCustomerById(id);
     }
 }

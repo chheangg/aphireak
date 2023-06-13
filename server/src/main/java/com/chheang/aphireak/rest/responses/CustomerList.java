@@ -3,6 +3,7 @@ package com.chheang.aphireak.rest.responses;
 import java.util.List;
 
 public class CustomerList {
+    // TODO: Add pagination
     private List<CustomerListElement> customers;
 
     public CustomerList() {
