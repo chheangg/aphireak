@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2023-06-13 10:41:18 +07
+-- Started on 2023-06-13 13:22:06 +07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -516,7 +516,7 @@ ALTER TABLE ONLY public.vehicle
     ADD CONSTRAINT vehicle_service_detail_fkey FOREIGN KEY (service_detail) REFERENCES public.service_detail(id);
 
 
--- Completed on 2023-06-13 10:41:18 +07
+-- Completed on 2023-06-13 13:22:06 +07
 
 --
 -- PostgreSQL database dump complete
