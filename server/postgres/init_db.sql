@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2023-06-13 13:22:06 +07
+-- Started on 2023-06-14 13:38:24 +07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -60,7 +60,7 @@ ALTER TABLE public.account ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 CREATE TABLE public.authorities (
     id integer NOT NULL,
     role text NOT NULL,
-    user_id integer
+    account_id integer
 );
 
 
@@ -183,7 +183,7 @@ CREATE TABLE public.product (
     id integer NOT NULL,
     name text NOT NULL,
     type_id integer,
-    recommended_price integer DEFAULT 0 NOT NULL
+    recommended_price integer DEFAULT 0 NOT NULL,
 );
 
 
@@ -278,7 +278,7 @@ CREATE TABLE public.vehicle (
     vehicle_type text NOT NULL,
     vehicle_name text NOT NULL,
     next_service date NOT NULL,
-    service_detail integer,
+    service_detail_id integer,
     customer_id integer
 );
 
@@ -441,7 +441,7 @@ ALTER TABLE ONLY public.vehicle
 --
 
 ALTER TABLE ONLY public.authorities
-    ADD CONSTRAINT authorities_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.account(id);
+    ADD CONSTRAINT authorities_user_id_fkey FOREIGN KEY (account_id) REFERENCES public.account(id);
 
 
 --
@@ -513,10 +513,10 @@ ALTER TABLE ONLY public.vehicle
 --
 
 ALTER TABLE ONLY public.vehicle
-    ADD CONSTRAINT vehicle_service_detail_fkey FOREIGN KEY (service_detail) REFERENCES public.service_detail(id);
+    ADD CONSTRAINT vehicle_service_detail_fkey FOREIGN KEY (service_detail_id) REFERENCES public.service_detail(id);
 
 
--- Completed on 2023-06-13 13:22:06 +07
+-- Completed on 2023-06-14 13:38:24 +07
 
 --
 -- PostgreSQL database dump complete

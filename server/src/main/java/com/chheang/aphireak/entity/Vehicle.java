@@ -29,7 +29,7 @@ public class Vehicle {
     private Date nextService;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "service_detail")
+    @JoinColumn(name = "service_detail_id")
     @JsonProperty("serviceDetail")
     private ServiceDetail serviceDetail;
 

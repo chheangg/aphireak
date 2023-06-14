@@ -3,10 +3,13 @@ package com.chheang.aphireak.rest;
 import com.chheang.aphireak.entity.Type;
 import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.rest.responses.ListResponse;
+import com.chheang.aphireak.rest.responses.TypeListElement;
 import com.chheang.aphireak.service.TypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/types")
@@ -18,13 +21,13 @@ public class TypeController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ListResponse<Type>> getTypes() {
-        return new ResponseEntity<>(
-                new ListResponse(
-                        typeService.getTypes()
-                ),
-                HttpStatus.OK
-        );
+    public ResponseEntity<ListResponse<TypeListElement>> getTypes() {
+        List<Type> types = typeService.getTypes();
+        List<TypeListElement> formattedTypes = types
+                .stream()
+                .map(t -> new TypeListElement(t.getId(), t.getName()))
+                .toList();
+        return new ResponseEntity<>(new ListResponse<>(formattedTypes), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

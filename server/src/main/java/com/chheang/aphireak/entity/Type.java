@@ -1,9 +1,16 @@
 package com.chheang.aphireak.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "type")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +19,9 @@ public class Type {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+    private List<Product> products;
 
     public Type() {
 
@@ -35,5 +45,13 @@ public class Type {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
