@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TypeService {
     List<Type> getTypes();
+    Type findTypeById(int id);
 }

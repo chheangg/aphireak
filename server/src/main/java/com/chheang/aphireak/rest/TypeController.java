@@ -1,10 +1,12 @@
-package com.chheang.aphireak.rest.responses;
+package com.chheang.aphireak.rest;
 
 import com.chheang.aphireak.entity.Type;
+import com.chheang.aphireak.rest.responses.ListResponse;
 import com.chheang.aphireak.service.TypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +27,10 @@ public class TypeController {
                 ),
                 HttpStatus.OK
         );
+    }
+
+    @GetMapping("/{id}")
+    public Type findTypeById(@PathVariable int id) {
+        return typeService.findTypeById(id);
     }
 }

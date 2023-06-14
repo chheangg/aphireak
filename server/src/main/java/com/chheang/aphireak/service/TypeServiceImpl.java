@@ -18,4 +18,9 @@ public class TypeServiceImpl implements TypeService {
     public List<Type> getTypes() {
         return typeDAO.getTypes();
     }
+
+    @Override
+    public Type findTypeById(int id) {
+        return typeDAO.findTypeById(id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.chheang.aphireak.dao;
 
+import com.chheang.aphireak.entity.Customer;
 import com.chheang.aphireak.entity.Type;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -21,5 +22,14 @@ public class TypeDAOImpl implements TypeDAO {
     public List<Type> getTypes() {
         TypedQuery<Type> types = entityManager.createQuery("FROM Type", Type.class);
         return types.getResultList();
+    }
+
+    @Override
+    public Type findTypeById(int id) {
+        Type type = entityManager.find(Type.class, id);
+        if (type == null) {
+            throw new RuntimeException();
+        }
+        return type;
     }
 }
