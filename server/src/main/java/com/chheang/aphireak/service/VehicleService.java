@@ -9,4 +9,5 @@ public interface VehicleService {
     Vehicle findVehiclesById(int id);
     Vehicle createVehicle(Vehicle vehicle);
     Vehicle updateVehicle(int id, Vehicle vehicle);
+    void deleteVehicleById(int id);
 }

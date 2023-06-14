@@ -1,6 +1,7 @@
 package com.chheang.aphireak.rest;
 
 import com.chheang.aphireak.entity.Vehicle;
+import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.rest.responses.ListResponse;
 import com.chheang.aphireak.rest.responses.VehicleListElement;
 import com.chheang.aphireak.service.VehicleService;
@@ -48,5 +49,11 @@ public class VehicleController {
     @PutMapping("/{id}")
     public Vehicle updateVehicle(@PathVariable int id, @RequestBody Vehicle vehicle) {
         return vehicleService.updateVehicle(id, vehicle);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<IdResponse> deleteVehicleById(@PathVariable int id) {
+        vehicleService.deleteVehicleById(id);
+        return new ResponseEntity<>(new IdResponse(id), HttpStatus.ACCEPTED);
     }
 }

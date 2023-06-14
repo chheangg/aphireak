@@ -1,6 +1,6 @@
 package com.chheang.aphireak.dao;
 
-import com.chheang.aphireak.entity.ServiceDetail;
+import com.chheang.aphireak.entity.Customer;
 import com.chheang.aphireak.entity.Vehicle;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class VehicleDaoImpl implements VehicleDAO {
+public class VehicleDAOImpl implements VehicleDAO {
     private final EntityManager entityManager;
 
     @Autowired
-    public VehicleDaoImpl(EntityManager ent) {
+    public VehicleDAOImpl(EntityManager ent) {
         entityManager = ent;
     }
     @Override
@@ -51,7 +51,17 @@ public class VehicleDaoImpl implements VehicleDAO {
         newVehicle.setId(id);
         newVehicle.setCustomer(vehicle.getCustomer());
         newVehicle.getServiceDetail().setId(vehicle.getServiceDetail().getId());
-        
+
         return entityManager.merge(newVehicle);
+    }
+
+    @Override
+    public void deleteVehicleById(int id) {
+        Vehicle vehicle = entityManager.find(Vehicle.class, id);
+        if (vehicle == null) {
+            // TODO: add Custom Exception
+            throw new RuntimeException();
+        }
+        entityManager.remove(vehicle);
     }
 }

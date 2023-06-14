@@ -63,4 +63,10 @@ public class VehicleServiceImpl implements VehicleService {
     public Vehicle updateVehicle(int id, Vehicle vehicle) {
         return vehicleDAO.updateVehicle(id, vehicle);
     }
+
+    @Override
+    @Transactional
+    public void deleteVehicleById(int id) {
+        vehicleDAO.deleteVehicleById(id);
+    }
 }
