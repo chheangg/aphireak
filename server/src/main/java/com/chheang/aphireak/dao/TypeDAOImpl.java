@@ -32,4 +32,10 @@ public class TypeDAOImpl implements TypeDAO {
         }
         return type;
     }
+
+    @Override
+    public void createType(Type type) {
+        type.setId(0);
+        entityManager.persist(type);
+    }
 }

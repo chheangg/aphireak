@@ -7,4 +7,5 @@ import java.util.List;
 public interface TypeDAO {
     List<Type> getTypes();
     Type findTypeById(int id);
+    void createType(Type type);
 }

@@ -2,6 +2,7 @@ package com.chheang.aphireak.service;
 
 import com.chheang.aphireak.dao.TypeDAO;
 import com.chheang.aphireak.entity.Type;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,5 +23,11 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public Type findTypeById(int id) {
         return typeDAO.findTypeById(id);
+    }
+
+    @Override
+    @Transactional
+    public void createType(Type type) {
+        typeDAO.createType(type);
     }
 }

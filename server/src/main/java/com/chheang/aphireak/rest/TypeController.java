@@ -5,10 +5,7 @@ import com.chheang.aphireak.rest.responses.ListResponse;
 import com.chheang.aphireak.service.TypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/types")
@@ -32,5 +29,11 @@ public class TypeController {
     @GetMapping("/{id}")
     public Type findTypeById(@PathVariable int id) {
         return typeService.findTypeById(id);
+    }
+
+    @PostMapping("/")
+    public Type createType(@RequestBody Type type) {
+        typeService.createType(type);
+        return type;
     }
 }
