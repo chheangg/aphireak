@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProductService {
     List<Product> getProducts();
+    Product findProductById(int id);
 }

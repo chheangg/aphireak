@@ -20,4 +20,14 @@ public class ProductDAOImpl implements ProductDAO {
         TypedQuery<Product> products = entityManager.createQuery("FROM Product", Product.class);
         return products.getResultList();
     }
+
+    @Override
+    public Product findProductById(int id) {
+        Product product = entityManager.find(Product.class, id);
+        if (product == null) {
+            throw new RuntimeException();
+        }
+
+        return product;
+    }
 }
