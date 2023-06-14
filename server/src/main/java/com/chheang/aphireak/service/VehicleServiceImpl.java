@@ -52,11 +52,15 @@ public class VehicleServiceImpl implements VehicleService {
         if (customer == null) {
             throw new RuntimeException();
         }
-        
+
         // Add ServiceDAO
         vehicleDAO.createVehicle(vehicle);
         return vehicle;
     }
 
-
+    @Override
+    @Transactional
+    public Vehicle updateVehicle(int id, Vehicle vehicle) {
+        return vehicleDAO.updateVehicle(id, vehicle);
+    }
 }

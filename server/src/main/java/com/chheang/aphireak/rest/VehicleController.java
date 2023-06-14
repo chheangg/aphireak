@@ -44,4 +44,9 @@ public class VehicleController {
     public Vehicle createVehicle(@RequestBody Vehicle vehicle) {
         return vehicleService.createVehicle(vehicle);
     }
+
+    @PutMapping("/{id}")
+    public Vehicle updateVehicle(@PathVariable int id, @RequestBody Vehicle vehicle) {
+        return vehicleService.updateVehicle(id, vehicle);
+    }
 }

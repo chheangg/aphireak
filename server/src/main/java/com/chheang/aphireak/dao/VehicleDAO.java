@@ -8,4 +8,5 @@ public interface VehicleDAO {
     List<Vehicle> getVehicles();
     Vehicle findVehicleById(int id);
     void createVehicle(Vehicle vehicle);
+    Vehicle updateVehicle(int id, Vehicle vehicle);
 }
