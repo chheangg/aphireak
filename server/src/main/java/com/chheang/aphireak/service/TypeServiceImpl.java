@@ -30,4 +30,10 @@ public class TypeServiceImpl implements TypeService {
     public void createType(Type type) {
         typeDAO.createType(type);
     }
+
+    @Override
+    @Transactional
+    public Type updateType(int id, Type type) {
+        return typeDAO.updateType(id, type);
+    }
 }

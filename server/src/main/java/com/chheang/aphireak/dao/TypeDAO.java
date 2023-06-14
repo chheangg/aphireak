@@ -8,4 +8,5 @@ public interface TypeDAO {
     List<Type> getTypes();
     Type findTypeById(int id);
     void createType(Type type);
+    Type updateType(int id, Type type);
 }

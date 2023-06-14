@@ -8,4 +8,5 @@ public interface TypeService {
     List<Type> getTypes();
     Type findTypeById(int id);
     void createType(Type type);
+    Type updateType(int id, Type type);
 }

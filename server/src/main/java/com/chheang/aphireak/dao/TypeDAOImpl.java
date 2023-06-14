@@ -38,4 +38,10 @@ public class TypeDAOImpl implements TypeDAO {
         type.setId(0);
         entityManager.persist(type);
     }
+
+    @Override
+    public Type updateType(int id, Type type) {
+        type.setId(id);
+        return entityManager.merge(type);
+    }
 }

@@ -36,4 +36,9 @@ public class TypeController {
         typeService.createType(type);
         return type;
     }
+
+    @PutMapping("/{id}")
+    public Type updateType(@PathVariable int id, @RequestBody Type type) {
+        return typeService.updateType(id, type);
+    }
 }
