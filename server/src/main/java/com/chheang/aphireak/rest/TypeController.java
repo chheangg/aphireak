@@ -1,6 +1,7 @@
 package com.chheang.aphireak.rest;
 
 import com.chheang.aphireak.entity.Type;
+import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.rest.responses.ListResponse;
 import com.chheang.aphireak.service.TypeService;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,12 @@ public class TypeController {
     @PutMapping("/{id}")
     public Type updateType(@PathVariable int id, @RequestBody Type type) {
         return typeService.updateType(id, type);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<IdResponse> deleteTypeById(@PathVariable int id) {
+        return new ResponseEntity<>(
+                new IdResponse(id), HttpStatus.ACCEPTED
+        );
     }
 }

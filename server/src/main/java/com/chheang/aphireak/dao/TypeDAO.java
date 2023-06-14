@@ -9,4 +9,6 @@ public interface TypeDAO {
     Type findTypeById(int id);
     void createType(Type type);
     Type updateType(int id, Type type);
+
+    void deleteTypeById(int id);
 }

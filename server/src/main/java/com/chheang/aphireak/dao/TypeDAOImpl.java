@@ -44,4 +44,14 @@ public class TypeDAOImpl implements TypeDAO {
         type.setId(id);
         return entityManager.merge(type);
     }
+
+    @Override
+    public void deleteTypeById(int id) {
+        Type type = entityManager.find(Type.class, id);
+        if (type == null) {
+            // TODO: add Custom Exception
+            throw new RuntimeException();
+        }
+        entityManager.remove(type);
+    }
 }
