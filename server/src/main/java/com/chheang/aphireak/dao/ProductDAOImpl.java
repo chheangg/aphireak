@@ -36,4 +36,24 @@ public class ProductDAOImpl implements ProductDAO {
         entityManager.persist(product);
     }
 
+    @Override
+    public Product updateProduct(int id, Product product) {
+        Product tempProduct = entityManager.find(Product.class, id);
+        if (tempProduct == null) {
+            throw new RuntimeException();
+        }
+
+        product.setId(id);
+        return entityManager.merge(product);
+    }
+
+    @Override
+    public void deleteProductById(int id) {
+       Product product = entityManager.find(Product.class, id);
+        if (product == null) {
+            throw new RuntimeException();
+        }
+
+        entityManager.remove(product);
+    }
 }

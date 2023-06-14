@@ -49,7 +49,6 @@ public class VehicleDAOImpl implements VehicleDAO {
 
         // Make sure vehicle id, and service id are correct
         newVehicle.setId(id);
-        newVehicle.setCustomer(vehicle.getCustomer());
         newVehicle.getServiceDetail().setId(vehicle.getServiceDetail().getId());
 
         return entityManager.merge(newVehicle);

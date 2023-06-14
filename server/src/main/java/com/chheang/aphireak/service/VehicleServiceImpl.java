@@ -47,11 +47,12 @@ public class VehicleServiceImpl implements VehicleService {
 
         // Find customer by id and make sure the correct customer is set
         Customer customer = customerDAO.findCustomerById(vehicle.getCustomer().getId());
-        vehicle.setCustomer(customer);
 
         if (customer == null) {
             throw new RuntimeException();
         }
+
+        vehicle.setCustomer(customer);
 
         // Add ServiceDAO
         vehicleDAO.createVehicle(vehicle);

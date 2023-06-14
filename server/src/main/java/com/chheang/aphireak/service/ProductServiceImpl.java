@@ -38,4 +38,26 @@ public class ProductServiceImpl implements ProductService {
 
         productDAO.createProduct(product);
     }
+
+    @Override
+    @Transactional
+    public Product updateProduct(int id, Product product) {
+        // Make sure product's cucrrent/new type exists
+        int typeId = product.getType().getId();
+        Type type = typeDAO.findTypeById(typeId);
+
+        if (type == null) {
+            throw new RuntimeException();
+        }
+
+        product.setType(type);
+
+        return productDAO.updateProduct(id, product);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProductById(int id) {
+        productDAO.deleteProductById(id);
+    }
 }

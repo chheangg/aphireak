@@ -1,6 +1,7 @@
 package com.chheang.aphireak.rest;
 
 import com.chheang.aphireak.entity.Product;
+import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.rest.responses.ListResponse;
 import com.chheang.aphireak.service.ProductService;
 import org.apache.coyote.Response;
@@ -38,8 +39,20 @@ public class ProductController {
 
     @PostMapping("/")
     public Product createProduct(@RequestBody Product product) {
-        System.out.println(product);
         productService.createProduct(product);
         return product;
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<IdResponse> deleteProductById(@PathVariable int id) {
+        productService.deleteProductById(id);
+        return new ResponseEntity<>(
+                new IdResponse(id), HttpStatus.ACCEPTED
+        );
     }
 }

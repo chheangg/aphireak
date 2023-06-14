@@ -2,6 +2,7 @@ package com.chheang.aphireak.dao;
 
 import com.chheang.aphireak.entity.Customer;
 import com.chheang.aphireak.entity.Type;
+import com.chheang.aphireak.entity.Vehicle;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class TypeDAOImpl implements TypeDAO {
 
     @Override
     public Type updateType(int id, Type type) {
+        Type tempType = entityManager.find(Type.class, id);
+
+        // Make sure it exists
+        if (type == null) {
+            throw new RuntimeException();
+        }
+
         type.setId(id);
         return entityManager.merge(type);
     }
