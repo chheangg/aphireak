@@ -1,15 +1,15 @@
 package com.chheang.aphireak.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "vehicle")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,21 +28,19 @@ public class Vehicle {
     @Column(name = "next_service")
     private Date nextService;
 
-    @OneToOne(
-            cascade = CascadeType.ALL
-    )
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "service_detail")
+    @JsonProperty("serviceDetail")
     private ServiceDetail serviceDetail;
 
     @ManyToOne(
             cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
             CascadeType.REFRESH
             }
     )
     @JoinColumn(name = "customer_id")
+    @JsonProperty("customer")
     private Customer customer;
 
     public Vehicle() {
@@ -96,7 +94,6 @@ public class Vehicle {
         this.nextService = nextService;
     }
 
-    @JsonManagedReference
     public ServiceDetail getServiceDetail() {
         return serviceDetail;
     }
@@ -105,7 +102,6 @@ public class Vehicle {
         this.serviceDetail = serviceDetail;
     }
 
-    @JsonBackReference
     public Customer getCustomer() {
         return customer;
     }

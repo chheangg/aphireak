@@ -8,6 +8,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "customer")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +25,7 @@ public class Customer {
 
     @OneToMany(
             mappedBy = "customer",
-            cascade = {
-                    CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH
-            }
+            cascade = CascadeType.ALL
     )
     private List<Vehicle> vehicles;
 
@@ -63,7 +61,6 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    @JsonManagedReference
     public List<Vehicle> getVehicles() {
         return vehicles;
     }

@@ -6,10 +6,8 @@ import com.chheang.aphireak.rest.responses.VehicleListElement;
 import com.chheang.aphireak.service.VehicleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -40,5 +38,10 @@ public class VehicleController {
     @GetMapping("/{id}")
     public Vehicle findVehicleById(@PathVariable int id) {
         return vehicleService.findVehiclesById(id);
+    }
+
+    @PostMapping("/")
+    public Vehicle createVehicle(@RequestBody Vehicle vehicle) {
+        return vehicleService.createVehicle(vehicle);
     }
 }

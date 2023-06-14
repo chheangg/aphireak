@@ -30,4 +30,10 @@ public class VehicleDaoImpl implements VehicleDAO {
         }
         return vehicle;
     }
+
+    @Override
+    public void createVehicle(Vehicle vehicle) {
+        vehicle.setId(0);
+        entityManager.persist(vehicle);
+    }
 }

@@ -8,6 +8,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "service_detail")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class ServiceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,7 +142,6 @@ public class ServiceDetail {
         this.other = other;
     }
 
-    @JsonBackReference
     public Vehicle getVehicle() {
         return vehicle;
     }
