@@ -1,6 +1,7 @@
 package com.chheang.aphireak.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -47,6 +48,7 @@ public class Type {
         this.name = name;
     }
 
+    @JsonIdentityReference(alwaysAsId = true)
     public List<Product> getProducts() {
         return products;
     }

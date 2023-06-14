@@ -30,4 +30,10 @@ public class ProductDAOImpl implements ProductDAO {
 
         return product;
     }
+    @Override
+    public void createProduct(Product product) {
+        product.setId(0);
+        entityManager.persist(product);
+    }
+
 }
