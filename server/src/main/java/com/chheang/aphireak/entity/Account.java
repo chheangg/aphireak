@@ -35,7 +35,8 @@ public class Account implements UserDetails{
 
     @OneToMany(
             mappedBy = "account",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
     )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Authorities> authorities;
@@ -69,17 +70,17 @@ public class Account implements UserDetails{
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     public void setUsername(String username) {
