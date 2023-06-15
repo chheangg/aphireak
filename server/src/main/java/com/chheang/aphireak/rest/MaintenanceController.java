@@ -54,4 +54,9 @@ public class MaintenanceController {
         maintenanceService.createMaintenance(maintenance);
         return maintenance;
     }
+
+    @PutMapping("/{id}")
+    public Maintenance updateMaintenance(@PathVariable int id, @RequestBody Maintenance maintenance) {
+        return maintenanceService.updateMaintenance(id, maintenance);
+    }
 }

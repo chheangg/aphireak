@@ -70,7 +70,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             Product product = productDAO.findProductById(p.getId());
 
             if (product != null) {
+                System.out.println(product);
                 d.setProduct(product);
+                d.setMaintenance(maintenance);
             } else {
                 throw new RuntimeException();
             }
@@ -80,5 +82,43 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenance.setVehicle(vehicle);
         maintenance.setAccount(account);
         maintenanceDAO.createMaintenance(maintenance);
+    }
+
+    @Override
+    @Transactional
+    public Maintenance updateMaintenance(int id, Maintenance maintenance) {
+        Maintenance maintenance1 = maintenanceDAO.findMaintenanceById(maintenance.getId());
+
+        if (maintenance1 == null) {
+            throw new RuntimeException();
+        }
+
+        Vehicle vehicle = vehicleDAO.findVehicleById(maintenance.getVehicle().getId());
+
+        if (vehicle != maintenance1.getVehicle()) {
+            throw new RuntimeException();
+        }
+
+        Account account = accountDAO.findAccountById(maintenance.getAccount().getId());
+
+        if (account != maintenance1.getAccount()) {
+            throw new RuntimeException();
+        }
+
+        // Check in each maintenance detail if the product is empty
+        maintenance.getMaintenanceDetails().forEach(d -> {
+            d.setId(0);
+            Product p = d.getProduct();
+            Product product = productDAO.findProductById(p.getId());
+
+            if (product != null) {
+                d.setProduct(product);
+                d.setMaintenance(maintenance);
+            } else {
+                throw new RuntimeException();
+            }
+        });
+
+        return maintenanceDAO.updateMaintenance(id, maintenance);
     }
 }

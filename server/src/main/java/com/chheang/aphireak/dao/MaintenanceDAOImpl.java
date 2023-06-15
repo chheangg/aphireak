@@ -37,4 +37,10 @@ public class MaintenanceDAOImpl implements MaintenanceDAO {
         maintenance.setId(0);
         entityManager.persist(maintenance);
     }
+
+    @Override
+    public Maintenance updateMaintenance(int id, Maintenance maintenance) {
+        maintenance.setId(id);
+        return entityManager.merge(maintenance);
+    }
 }

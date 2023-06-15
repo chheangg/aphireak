@@ -8,4 +8,5 @@ public interface MaintenanceService {
     List<Maintenance> getMaintenances();
     Maintenance findMaintenanceById(int id);
     void createMaintenance(Maintenance maintenance);
+    Maintenance updateMaintenance(int id, Maintenance maintenance);
 }
