@@ -121,4 +121,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         return maintenanceDAO.updateMaintenance(id, maintenance);
     }
+
+    @Override
+    @Transactional
+    public void deleteMaintenanceById(int id) {
+        maintenanceDAO.deleteMaintenanceById(id);
+    }
 }

@@ -43,4 +43,13 @@ public class MaintenanceDAOImpl implements MaintenanceDAO {
         maintenance.setId(id);
         return entityManager.merge(maintenance);
     }
+
+    @Override
+    public void deleteMaintenanceById(int id) {
+        Maintenance maintenance = entityManager.find(Maintenance.class, id);
+        if (maintenance == null) {
+            throw new RuntimeException();
+        }
+        entityManager.remove(maintenance);
+    }
 }

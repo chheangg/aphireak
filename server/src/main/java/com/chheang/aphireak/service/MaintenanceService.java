@@ -9,4 +9,5 @@ public interface MaintenanceService {
     Maintenance findMaintenanceById(int id);
     void createMaintenance(Maintenance maintenance);
     Maintenance updateMaintenance(int id, Maintenance maintenance);
+    void deleteMaintenanceById(int id);
 }

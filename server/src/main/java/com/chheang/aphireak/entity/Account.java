@@ -2,7 +2,12 @@ package com.chheang.aphireak.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -11,13 +16,13 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
         scope = Account.class)
-public class Account {
+public class Account implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -50,14 +55,6 @@ public class Account {
         this.enabled = enabled;
     }
 
-    public Account(int id, String username, String password, boolean enabled, List<Authorities> authorities) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.authorities = authorities;
-    }
-
     public int getId() {
         return id;
     }
@@ -68,6 +65,21 @@ public class Account {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 
     public void setUsername(String username) {
@@ -90,8 +102,16 @@ public class Account {
         this.enabled = enabled;
     }
 
-    public List<Authorities> getAuthorities() {
-        return authorities;
+    public List<Authorities> getAuthoritiesCustom() {
+        return this.authorities;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authoritiesNew = new ArrayList<GrantedAuthority>();
+        for (Authorities authorithy : getAuthoritiesCustom()) {
+            authoritiesNew.add(new SimpleGrantedAuthority(authorithy.getRole()));
+        }
+        return authoritiesNew;
     }
 
     public void setAuthorities(List<Authorities> authorities) {
