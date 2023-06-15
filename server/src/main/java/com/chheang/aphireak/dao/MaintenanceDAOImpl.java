@@ -31,4 +31,10 @@ public class MaintenanceDAOImpl implements MaintenanceDAO {
         }
         return maintenance;
     }
+
+    @Override
+    public void createMaintenance(Maintenance maintenance) {
+        maintenance.setId(0);
+        entityManager.persist(maintenance);
+    }
 }

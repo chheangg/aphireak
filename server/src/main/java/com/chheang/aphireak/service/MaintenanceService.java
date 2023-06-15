@@ -7,4 +7,5 @@ import java.util.List;
 public interface MaintenanceService {
     List<Maintenance> getMaintenances();
     Maintenance findMaintenanceById(int id);
+    void createMaintenance(Maintenance maintenance);
 }

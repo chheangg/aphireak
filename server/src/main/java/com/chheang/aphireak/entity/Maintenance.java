@@ -13,7 +13,8 @@ import java.util.List;
 @Table(name = "maintenance")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Maintenance.class)
 public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +32,17 @@ public class Maintenance {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonProperty("customer")
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
+    @JsonProperty("account")
     private Account account;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
+    @JsonProperty("vehicle")
     private Vehicle vehicle;
 
     @OneToMany(

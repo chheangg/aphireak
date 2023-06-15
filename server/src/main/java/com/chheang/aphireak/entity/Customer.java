@@ -10,7 +10,8 @@ import java.util.List;
 @Table(name = "customer")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Customer.class)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +86,7 @@ public class Customer {
         vehicle.setCustomer(this);
     }
 
+    @JsonIdentityReference(alwaysAsId = true)
     public List<Maintenance> getMaintenances() {
         return maintenances;
     }

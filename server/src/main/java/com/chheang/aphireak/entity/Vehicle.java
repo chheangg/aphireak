@@ -117,6 +117,7 @@ public class Vehicle {
         this.customer = customer;
     }
 
+    @JsonIdentityReference(alwaysAsId = true)
     public List<Maintenance> getMaintenances() {
         return maintenances;
     }

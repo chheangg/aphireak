@@ -8,7 +8,8 @@ import jakarta.persistence.*;
 @Table(name = "maintenance_detail")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = MaintenanceDetail.class)
 public class MaintenanceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +35,10 @@ public class MaintenanceDetail {
 
     }
 
-    public MaintenanceDetail(int quantity, int priceInCent) {
+    public MaintenanceDetail(int quantity, int priceInCent, Maintenance maintenance) {
         this.quantity = quantity;
         this.priceInCent = priceInCent;
+        this.maintenance = maintenance;
     }
 
     public int getId() {
@@ -77,5 +79,16 @@ public class MaintenanceDetail {
 
     public void setMaintenance(Maintenance maintenance) {
         this.maintenance = maintenance;
+    }
+
+    @Override
+    public String toString() {
+        return "MaintenanceDetail{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", priceInCent=" + priceInCent +
+                ", product=" + product +
+                ", maintenance=" + maintenance +
+                '}';
     }
 }

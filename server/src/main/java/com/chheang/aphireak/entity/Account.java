@@ -1,9 +1,6 @@
 package com.chheang.aphireak.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,7 +9,8 @@ import java.util.List;
 @Table(name = "account")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Account.class)
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,6 +98,7 @@ public class Account {
         this.authorities = authorities;
     }
 
+    @JsonIdentityReference(alwaysAsId = true)
     public List<Maintenance> getMaintenances() {
         return maintenances;
     }
