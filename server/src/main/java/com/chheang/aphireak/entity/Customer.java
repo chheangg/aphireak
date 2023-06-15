@@ -27,7 +27,14 @@ public class Customer {
             mappedBy = "customer",
             cascade = CascadeType.ALL
     )
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Vehicle> vehicles;
+
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL
+    )
+    private List<Maintenance> maintenances;
 
     public Customer() {
     }
@@ -76,6 +83,14 @@ public class Customer {
 
         vehicles.add(vehicle);
         vehicle.setCustomer(this);
+    }
+
+    public List<Maintenance> getMaintenances() {
+        return maintenances;
+    }
+
+    public void setMaintenances(List<Maintenance> maintenances) {
+        this.maintenances = maintenances;
     }
 
     @Override

@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2023-06-14 13:38:24 +07
+-- Started on 2023-06-15 10:34:35 +07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -111,6 +111,24 @@ ALTER TABLE public.customer ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
+-- TOC entry 231 (class 1259 OID 21871)
+-- Name: maintenance; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.maintenance (
+    id integer NOT NULL,
+    account_id integer,
+    customer_id integer,
+    vehicle_id integer,
+    total_cost integer DEFAULT 0 NOT NULL,
+    paid boolean DEFAULT false,
+    "timestamp" timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.maintenance OWNER TO postgres;
+
+--
 -- TOC entry 229 (class 1259 OID 21858)
 -- Name: maintenance_detail; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -119,7 +137,8 @@ CREATE TABLE public.maintenance_detail (
     id integer NOT NULL,
     product_id integer,
     quantity integer DEFAULT 0 NOT NULL,
-    price integer DEFAULT 0 NOT NULL
+    price integer DEFAULT 0 NOT NULL,
+    maintenance_id integer
 );
 
 
@@ -141,30 +160,11 @@ ALTER TABLE public.maintenance_detail ALTER COLUMN id ADD GENERATED ALWAYS AS ID
 
 
 --
--- TOC entry 231 (class 1259 OID 21871)
--- Name: maintnenace; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.maintnenace (
-    id integer NOT NULL,
-    account_id integer,
-    customer_id integer,
-    vehicle_id integer,
-    total_cost integer DEFAULT 0 NOT NULL,
-    paid boolean DEFAULT false,
-    "timestamp" timestamp with time zone DEFAULT now(),
-    maintenance_detail_id integer
-);
-
-
-ALTER TABLE public.maintnenace OWNER TO postgres;
-
---
 -- TOC entry 230 (class 1259 OID 21870)
 -- Name: maintnenace_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-ALTER TABLE public.maintnenace ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE public.maintenance ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME public.maintnenace_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -183,7 +183,7 @@ CREATE TABLE public.product (
     id integer NOT NULL,
     name text NOT NULL,
     type_id integer,
-    recommended_price integer DEFAULT 0 NOT NULL,
+    recommended_price integer DEFAULT 0 NOT NULL
 );
 
 
@@ -365,10 +365,10 @@ ALTER TABLE ONLY public.maintenance_detail
 
 --
 -- TOC entry 3515 (class 2606 OID 21878)
--- Name: maintnenace maintnenace_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: maintenance maintnenace_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.maintnenace
+ALTER TABLE ONLY public.maintenance
     ADD CONSTRAINT maintnenace_pkey PRIMARY KEY (id);
 
 
@@ -445,7 +445,16 @@ ALTER TABLE ONLY public.authorities
 
 
 --
--- TOC entry 3520 (class 2606 OID 21865)
+-- TOC entry 3520 (class 2606 OID 21899)
+-- Name: maintenance_detail maintenance_detail_maintenance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.maintenance_detail
+    ADD CONSTRAINT maintenance_detail_maintenance_id_fkey FOREIGN KEY (maintenance_id) REFERENCES public.maintenance(id);
+
+
+--
+-- TOC entry 3521 (class 2606 OID 21865)
 -- Name: maintenance_detail maintenance_detail_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -454,38 +463,29 @@ ALTER TABLE ONLY public.maintenance_detail
 
 
 --
--- TOC entry 3521 (class 2606 OID 21879)
--- Name: maintnenace maintnenace_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 3522 (class 2606 OID 21879)
+-- Name: maintenance maintnenace_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.maintnenace
+ALTER TABLE ONLY public.maintenance
     ADD CONSTRAINT maintnenace_account_id_fkey FOREIGN KEY (account_id) REFERENCES public.account(id);
 
 
 --
--- TOC entry 3522 (class 2606 OID 21884)
--- Name: maintnenace maintnenace_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 3523 (class 2606 OID 21884)
+-- Name: maintenance maintnenace_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.maintnenace
+ALTER TABLE ONLY public.maintenance
     ADD CONSTRAINT maintnenace_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customer(id);
 
 
 --
--- TOC entry 3523 (class 2606 OID 21894)
--- Name: maintnenace maintnenace_maintenance_detail_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.maintnenace
-    ADD CONSTRAINT maintnenace_maintenance_detail_id_fkey FOREIGN KEY (maintenance_detail_id) REFERENCES public.maintenance_detail(id);
-
-
---
 -- TOC entry 3524 (class 2606 OID 21889)
--- Name: maintnenace maintnenace_vehicle_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: maintenance maintnenace_vehicle_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.maintnenace
+ALTER TABLE ONLY public.maintenance
     ADD CONSTRAINT maintnenace_vehicle_id_fkey FOREIGN KEY (vehicle_id) REFERENCES public.vehicle(id);
 
 
@@ -516,7 +516,7 @@ ALTER TABLE ONLY public.vehicle
     ADD CONSTRAINT vehicle_service_detail_fkey FOREIGN KEY (service_detail_id) REFERENCES public.service_detail(id);
 
 
--- Completed on 2023-06-14 13:38:24 +07
+-- Completed on 2023-06-15 10:34:36 +07
 
 --
 -- PostgreSQL database dump complete

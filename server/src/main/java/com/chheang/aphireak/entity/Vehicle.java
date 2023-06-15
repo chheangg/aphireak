@@ -3,7 +3,8 @@ package com.chheang.aphireak.entity;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicle")
@@ -26,7 +27,7 @@ public class Vehicle {
     private String vehicleType;
 
     @Column(name = "next_service")
-    private Date nextService;
+    private LocalDate nextService;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "service_detail_id")
@@ -43,11 +44,17 @@ public class Vehicle {
     @JsonProperty("customer")
     private Customer customer;
 
+    @OneToMany(
+            mappedBy = "vehicle",
+            cascade = CascadeType.ALL
+    )
+    private List<Maintenance> maintenances;
+
     public Vehicle() {
 
     }
 
-    public Vehicle(String plateNumber, String vehicleName, String vehicleType, Date nextService) {
+    public Vehicle(String plateNumber, String vehicleName, String vehicleType, LocalDate nextService) {
         this.plateNumber = plateNumber;
         this.vehicleName = vehicleName;
         this.vehicleType = vehicleType;
@@ -86,11 +93,11 @@ public class Vehicle {
         this.vehicleType = vehicleType;
     }
 
-    public Date getNextService() {
+    public LocalDate getNextService() {
         return nextService;
     }
 
-    public void setNextService(Date nextService) {
+    public void setNextService(LocalDate nextService) {
         this.nextService = nextService;
     }
 
@@ -108,6 +115,14 @@ public class Vehicle {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Maintenance> getMaintenances() {
+        return maintenances;
+    }
+
+    public void setMaintenances(List<Maintenance> maintenances) {
+        this.maintenances = maintenances;
     }
 
     @Override

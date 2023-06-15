@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "product")
 @JsonIdentityInfo(
@@ -26,6 +28,12 @@ public class Product {
 
     @Column(name = "recommended_price")
     private int priceInCent;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "product"
+    )
+    private List<MaintenanceDetail> maintenanceDetails;
 
     public Product() {
 
