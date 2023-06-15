@@ -22,4 +22,13 @@ public class MaintenanceDAOImpl implements MaintenanceDAO {
         TypedQuery<Maintenance> query = entityManager.createQuery("FROM Maintenance", Maintenance.class);
         return query.getResultList();
     }
+
+    @Override
+    public Maintenance findMaintenanceById(int id) {
+        Maintenance maintenance = entityManager.find(Maintenance.class, id);
+        if (maintenance == null) {
+            throw new RuntimeException();
+        }
+        return maintenance;
+    }
 }

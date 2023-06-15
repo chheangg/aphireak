@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MaintenanceDAO {
     List<Maintenance> getMaintenances();
+    Maintenance findMaintenanceById(int id);
 }

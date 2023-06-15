@@ -7,6 +7,7 @@ import com.chheang.aphireak.service.MaintenanceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,5 +44,10 @@ public class MaintenanceController {
         return new ResponseEntity<>(
                 new ListResponse<>(formatted_maintenances), HttpStatus.OK
         );
+    }
+
+    @GetMapping("/{id}")
+    public Maintenance findMaintenanceById(@PathVariable int id) {
+        return maintenanceService.findMaintenanceById(id);
     }
 }

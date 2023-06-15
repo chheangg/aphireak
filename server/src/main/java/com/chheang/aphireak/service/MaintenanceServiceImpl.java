@@ -16,9 +16,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenanceDAO = ent;
     }
 
-
     @Override
     public List<Maintenance> getMaintenances() {
         return maintenanceDAO.getMaintenances();
+    }
+
+    @Override
+    public Maintenance findMaintenanceById(int id) {
+        return maintenanceDAO.findMaintenanceById(id);
     }
 }
