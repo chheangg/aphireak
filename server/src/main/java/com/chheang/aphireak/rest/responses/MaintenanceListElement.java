@@ -32,7 +32,7 @@ public class MaintenanceListElement {
         this.customerName = customer.getFullName();
         this.vehicleName = vehicle.getVehicleName();
         this.accountName = account.getUsername();
-        this.url = "/api/maintenances/" + id;
+        this.url = "/maintenances/" + id;
     }
 
     public int getId() {

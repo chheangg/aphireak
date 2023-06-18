@@ -30,7 +30,9 @@ public class VehicleController {
                                 v.getId(),
                                 v.getVehicleName(),
                                 v.getVehicleType(),
-                                v.getPlateNumber()
+                                v.getPlateNumber(),
+                                v.getNextService(),
+                                v.getCustomer().getFullName()
                         )))
                         .toList();
         return new ResponseEntity<>(new ListResponse<>(formattedVehicles), HttpStatus.OK);

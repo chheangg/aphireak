@@ -1,22 +1,29 @@
 package com.chheang.aphireak.rest.responses;
 
+import java.time.LocalDate;
+
 public class VehicleListElement {
     private int id;
     private String vehicleName;
     private String vehicleType;
     private String plateNumber;
     private String url;
+    private LocalDate nextService;
+    private String vehicleOwner;
 
     public VehicleListElement() {
 
     }
 
-    public VehicleListElement(int id, String vehicleName, String vehicleType, String plateNumber) {
+    public VehicleListElement(int id, String vehicleName, String vehicleType, String plateNumber, LocalDate nextService,
+                              String vehicleOwner) {
         this.id = id;
         this.vehicleName = vehicleName;
         this.vehicleType = vehicleType;
         this.plateNumber = plateNumber;
-        this.url = "/api/vehicles/" + id;
+        this.nextService = nextService;
+        this.vehicleOwner = vehicleOwner;
+        this.url = "/vehicles/" + id;
     }
 
     public int getId() {
@@ -57,5 +64,21 @@ public class VehicleListElement {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public LocalDate getNextService() {
+        return nextService;
+    }
+
+    public void setNextService(LocalDate nextService) {
+        this.nextService = nextService;
+    }
+
+    public String getVehicleOwner() {
+        return vehicleOwner;
+    }
+
+    public void setVehicleOwner(String vehicleOwner) {
+        this.vehicleOwner = vehicleOwner;
     }
 }

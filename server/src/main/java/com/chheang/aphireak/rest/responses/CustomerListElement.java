@@ -5,15 +5,18 @@ public class CustomerListElement {
     private String fullName;
     private String url;
 
+    private int numberOfVehicles;
+
 
     public CustomerListElement() {
 
     }
 
-    public CustomerListElement(int id, String fullName) {
+    public CustomerListElement(int id, String fullName, int numberOfVehicles) {
         this.id = id;
         this.fullName = fullName;
-        this.url = "/api/customers/" + id;
+        this.url = "/customers/" + id;
+        this.numberOfVehicles = numberOfVehicles;
     }
 
     public int getId() {
@@ -38,5 +41,13 @@ public class CustomerListElement {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getNumberOfVehicles() {
+        return numberOfVehicles;
+    }
+
+    public void setNumberOfVehicles(int numberOfVehicles) {
+        this.numberOfVehicles = numberOfVehicles;
     }
 }

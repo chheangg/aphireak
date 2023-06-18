@@ -28,7 +28,7 @@ public class CustomerController {
         List<CustomerListElement> formattedCustomers =
                         customers
                                 .stream()
-                                .map(c -> new CustomerListElement(c.getId(), c.getFullName()))
+                                .map(c -> new CustomerListElement(c.getId(), c.getFullName(), c.getVehicles().size()))
                                 .collect(toList());
         return new ResponseEntity<>(new ListResponse(formattedCustomers), HttpStatus.OK);
 
