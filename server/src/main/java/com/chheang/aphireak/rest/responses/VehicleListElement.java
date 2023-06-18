@@ -11,12 +11,14 @@ public class VehicleListElement {
     private LocalDate nextService;
     private String vehicleOwner;
 
+    private String ownerUrl;
+
     public VehicleListElement() {
 
     }
 
     public VehicleListElement(int id, String vehicleName, String vehicleType, String plateNumber, LocalDate nextService,
-                              String vehicleOwner) {
+                              String vehicleOwner, int ownerId) {
         this.id = id;
         this.vehicleName = vehicleName;
         this.vehicleType = vehicleType;
@@ -24,6 +26,7 @@ public class VehicleListElement {
         this.nextService = nextService;
         this.vehicleOwner = vehicleOwner;
         this.url = "/vehicles/" + id;
+        this.url = "/customers/" + ownerId;
     }
 
     public int getId() {

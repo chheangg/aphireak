@@ -3,6 +3,7 @@ package com.chheang.aphireak.rest;
 import com.chheang.aphireak.entity.Product;
 import com.chheang.aphireak.rest.responses.IdResponse;
 import com.chheang.aphireak.rest.responses.ListResponse;
+import com.chheang.aphireak.rest.responses.ProductListElement;
 import com.chheang.aphireak.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,19 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ListResponse<Product>> getProducts() {
+    public ResponseEntity<ListResponse<ProductListElement>> getProducts() {
         List<Product> products = productService.getProducts();
+        List<ProductListElement> formatted_products = products
+                .stream()
+                .map(p -> new ProductListElement(
+                        p.getId(),
+                        p.getName(),
+                        p.getType().getName(),
+                        p.getPriceInCent()
+                ))
+                .toList();
         return new ResponseEntity<>(
-                new ListResponse<>(products),
+                new ListResponse<>(formatted_products),
                 HttpStatus.OK
         );
     }
