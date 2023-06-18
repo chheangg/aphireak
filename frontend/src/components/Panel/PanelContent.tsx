@@ -5,7 +5,7 @@ interface PanelContentProps {
 }
 
 const PanelContent = ({ children } : PanelContentProps) => (
-  <Box flex='1' p='1rem'>
+  <Box flex='1'>
     {children}
   </Box>
 )

@@ -12,11 +12,11 @@ const PanelTabElement = ({ children, icon, onClick, isSelected } : PanelTabEleme
   <Button
     bgColor={isSelected ? 'orange.400' : 'orange.300'}
     variant='ghost' 
-    borderTopRadius='15px' 
+    borderTopRadius='15px'
     borderBottomRadius='0'
     padding='0' w='25ch' 
     justifyContent='flex-start' 
-    color='gray.800' 
+    color={isSelected ? 'gray.50' : 'gray.50' }
     _hover={{ bgColor: isSelected ? 'orange.400' : 'orange.300'}}
     onClick={onClick}
   >

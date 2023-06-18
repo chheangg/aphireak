@@ -5,11 +5,13 @@ export interface ProductListElement {
   name: string,
   typeId: number,
   priceInCent: number,
+  type: 'product',
 }
 
 export interface TypeListElement {
   id: number;
   name: string;
+  type: 'type',
 }
 
 export interface Type extends TypeListElement {
@@ -20,6 +22,7 @@ export interface CustomerListElement {
   id: number;
   fullName: string;
   url: string
+  type: 'customer',
 }
 
 export interface Customer extends CustomerListElement {
@@ -47,6 +50,7 @@ export interface VehicleListElement {
   vehicleType: string;
   nextService: Date;
   url: string;
+  type: 'vehicle',
 }
 
 export interface Vehicle extends VehicleListElement {
@@ -71,6 +75,7 @@ export interface MaintenanceListElement extends MaintenancePrototype {
   accountName: string;
   customerName: string;
   vehicleName: string;
+  type: 'maintenance',
 }
 
 export interface Maintenance extends MaintenancePrototype {
@@ -82,4 +87,10 @@ export interface PanelPage {
   tabIcon: IconType;
   tabText: string;
   page: JSX.Element,
+}
+
+export type Data = TypeListElement | CustomerListElement | VehicleListElement | ProductListElement | TypeListElement | MaintenanceListElement;
+
+export interface MaintenanceDTO {
+  data: MaintenanceListElement[]
 }
