@@ -1,3 +1,5 @@
+import { IconType } from "react-icons";
+
 export interface ProductListElement {
   id: number;
   name: string,
@@ -73,4 +75,11 @@ export interface MaintenanceListElement extends MaintenancePrototype {
 
 export interface Maintenance extends MaintenancePrototype {
   customer: CustomerListElement;
+}
+
+export interface PanelPage {
+  id: number;
+  tabIcon: IconType;
+  tabText: string;
+  page: JSX.Element,
 }

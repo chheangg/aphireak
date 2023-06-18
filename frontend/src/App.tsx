@@ -14,6 +14,10 @@ import Navbar from "./components/Navbar";
 import logoImg from './asset/logo.png';
 import LogoBtn from "./components/LogoBtn";
 import PageLayout from "./layout/PageLayout";
+import MaintenanceRecord from "./page/MaintenanceRecord";
+import Customer from "./page/Customer";
+import Vehicle from "./page/Vehicle";
+import Product from "./page/Product";
 
 
 const App = () => {
@@ -36,15 +40,18 @@ const App = () => {
           <SideBarElement icon={MdAccountCircle} to='/accounts'>Account</SideBarElement>
         </SideBar>
         {/* This is the content part. We use react-router to change the content based on the side bar selected */}
+        {/**
+         * Each page has listing and form section for creation. 
+         */}
         <PageLayout>
           <Routes>
             {/* Make /maintnenace the default route on visiting the website */}
             <Route element={<Navigate to='/maintenances' />} path='/' />
-            <Route element={<div>Maintenance</div>} path='/maintenances' index />
+            <Route element={<MaintenanceRecord />} path='/maintenances' index />
             <Route element={<div>Upcoming Maintenance</div>} path='/upcoming-maintenances' />
-            <Route element={<div>Customer</div>} path='/customers' />
-            <Route element={<div>Vehicle</div>} path='/vehicles' />
-            <Route element={<div>product</div>} path='/products' />
+            <Route element={<Customer />} path='/customers' />
+            <Route element={<Vehicle />} path='/vehicles' />
+            <Route element={<Product />} path='/products' />
             <Route element={<div>account</div>} path='/accounts' />
           </Routes>
         </PageLayout>

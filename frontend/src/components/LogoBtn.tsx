@@ -8,7 +8,7 @@ interface LogoBtnProps {
 const LogoBtn = ({ logoImg } : LogoBtnProps) => {
   const navigate = useNavigate();
   return (
-    <Button variant='unstyled' onClick={() => navigate('/')}>
+    <Button h='2rem' variant='unstyled' onClick={() => navigate('/')}>
       <Image h='100%' objectFit='contain' src={logoImg} />
     </Button>
   )
