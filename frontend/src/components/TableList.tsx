@@ -1,5 +1,5 @@
 import { Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
-import { Data, MaintenanceListElement } from "../types";
+import { CustomerListElement, Data, MaintenanceListElement } from "../types";
 
 interface TableListProp {
   children: JSX.Element | JSX.Element[];
@@ -22,7 +22,14 @@ const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
             </Tr>  
           );
       case 'customer':
-        return data.map(d => <div key={d.id}>{d.id}</div>)
+        return data
+        .map(d => d as CustomerListElement)
+        .map(d =>
+          <Tr key={d.id}>
+            <Td>{d.fullName}</Td>
+            <Td>{d.numberOfVehicles}</Td>
+          </Tr>  
+        );
       case 'product':
         return data.map(d => <div key={d.id}>{d.id}</div>)
       case 'type':

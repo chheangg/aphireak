@@ -22,7 +22,8 @@ export interface CustomerListElement {
   id: number;
   fullName: string;
   url: string
-  type: 'customer',
+  numberOfVehicles?: number;
+  type: 'customer';
 }
 
 export interface Customer extends CustomerListElement {
@@ -50,7 +51,8 @@ export interface VehicleListElement {
   vehicleType: string;
   nextService: Date;
   url: string;
-  type: 'vehicle',
+  vehicleOwner?: string;
+  type: 'vehicle';
 }
 
 export interface Vehicle extends VehicleListElement {
@@ -93,4 +95,8 @@ export type Data = TypeListElement | CustomerListElement | VehicleListElement | 
 
 export interface MaintenanceDTO {
   data: MaintenanceListElement[]
+}
+
+export interface CustomerDTO {
+  data: CustomerListElement[]
 }

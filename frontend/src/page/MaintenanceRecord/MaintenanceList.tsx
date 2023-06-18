@@ -18,7 +18,7 @@ const TableListInstantiate = (data : MaintenanceListElement[]) => (
 )
 
 const MaintenanceList = () => {
-  const { isLoading, data: response, error} = useQuery('maintenance', getAllMaintenances);
+  const { isLoading, data: response } = useQuery('maintenance', getAllMaintenances);
   
   if (isLoading) {
     return TableListInstantiate([]);
