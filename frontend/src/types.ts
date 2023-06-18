@@ -100,3 +100,7 @@ export interface MaintenanceDTO {
 export interface CustomerDTO {
   data: CustomerListElement[]
 }
+
+export interface VehicleDTO {
+  data: VehicleListElement[]
+}

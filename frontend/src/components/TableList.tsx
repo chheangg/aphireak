@@ -1,5 +1,6 @@
 import { Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
-import { CustomerListElement, Data, MaintenanceListElement } from "../types";
+import { CustomerListElement, Data, MaintenanceListElement, VehicleListElement } from "../types";
+import { format } from "date-fns";
 
 interface TableListProp {
   children: JSX.Element | JSX.Element[];
@@ -17,7 +18,7 @@ const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
               <Td>{d.vehicleName}</Td>
               <Td>{d.customerName}</Td>
               <Td>{d.accountName}</Td>
-              <Td>$ {(d.totalCostInCent / 100).toFixed(2)}</Td>
+              <Td isNumeric>$ {(d.totalCostInCent / 100).toFixed(2)}</Td>
               <Td>{d.paid ? 'paid' : 'unpaid'}</Td>
             </Tr>  
           );
@@ -35,7 +36,17 @@ const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
       case 'type':
         return data.map(d => <div key={d.id}>{d.id}</div>)
       case 'vehicle':
-        return data.map(d => <div key={d.id}>{d.id}</div>)
+        return data
+        .map(d => d as VehicleListElement)
+        .map(d =>
+          <Tr key={d.id}>
+            <Td>{d.vehicleName}</Td>
+            <Td>{d.type}</Td>
+            <Td>{d.plateNumber}</Td>
+            <Td>{format(d.nextService, "do MMMMMMM, yyyy")}</Td>
+            <Td>{d.vehicleOwner}</Td>
+          </Tr>  
+        );
       default:
         return null;
     }
@@ -44,7 +55,7 @@ const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
 }
 
 const TableList = ({ data, children } : TableListProp) => (
-  <Table p='0'>
+  <Table p='0' variant='striped' colorScheme="orange">
     <Thead p='0' bgColor='orange.400'>
       {children}
     </Thead>

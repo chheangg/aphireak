@@ -11,7 +11,7 @@ const TableListInstantiate = (data : MaintenanceListElement[]) => (
       <Th color='gray.50'>Vehicle</Th>
       <Th color='gray.50'>Customer</Th>
       <Th color='gray.50'>Salesperson</Th>
-      <Th color='gray.50'>Total Cost</Th>
+      <Th color='gray.50' isNumeric>Total Cost</Th>
       <Th color='gray.50'>Status</Th>
     </Tr>
   </TableList>
