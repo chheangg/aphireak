@@ -2,7 +2,7 @@ import { Tr, Th } from "@chakra-ui/react";
 import TableList from "../../components/TableList";
 
 import { useQuery } from "react-query";
-import { getAllCustomers } from "../../services/CustomerService";
+import { getAllCustomers } from "../../services/customerService";
 import { CustomerListElement } from "../../types";
 
 const TableListInstantiate = (data : CustomerListElement[]) => (
@@ -10,6 +10,8 @@ const TableListInstantiate = (data : CustomerListElement[]) => (
     <Tr>
       <Th color='gray.50'>Customer Name</Th>
       <Th color='gray.50'>Vehicles Owned</Th>
+      <Th></Th>
+      <Th></Th>
     </Tr>
   </TableList>
 )

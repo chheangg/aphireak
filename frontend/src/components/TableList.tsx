@@ -1,5 +1,5 @@
 import { Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
-import { CustomerListElement, Data, MaintenanceListElement, VehicleListElement } from "../types";
+import { CustomerListElement, Data, MaintenanceListElement, ProductListElement, VehicleListElement } from "../types";
 import { format } from "date-fns";
 
 interface TableListProp {
@@ -29,10 +29,22 @@ const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
           <Tr key={d.id}>
             <Td>{d.fullName}</Td>
             <Td>{d.numberOfVehicles}</Td>
+            <Td></Td>
+            <Td></Td>
           </Tr>  
         );
       case 'product':
-        return data.map(d => <div key={d.id}>{d.id}</div>)
+        return data
+        .map(d => d as ProductListElement)
+        .map(d =>
+          <Tr key={d.id}>
+            <Td>{d.name}</Td>
+            <Td>{d.typeName}</Td>
+            <Td isNumeric>{(d.priceInCent / 100).toFixed(2)}</Td>
+            <Td></Td>
+            <Td></Td>
+          </Tr>  
+        );
       case 'type':
         return data.map(d => <div key={d.id}>{d.id}</div>)
       case 'vehicle':

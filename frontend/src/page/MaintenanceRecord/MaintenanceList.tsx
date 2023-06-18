@@ -1,8 +1,8 @@
-import { Box, Tr, Th } from "@chakra-ui/react";
+import { Tr, Th } from "@chakra-ui/react";
 import TableList from "../../components/TableList";
 
 import { useQuery } from "react-query";
-import { getAllMaintenances } from "../../services/MaintenanceService";
+import { getAllMaintenances } from "../../services/maintenanceService";
 import { MaintenanceListElement } from "../../types";
 
 const TableListInstantiate = (data : MaintenanceListElement[]) => (

@@ -3,7 +3,7 @@ import { IconType } from "react-icons";
 export interface ProductListElement {
   id: number;
   name: string,
-  typeId: number,
+  typeName: string,
   priceInCent: number,
   type: 'product',
 }
@@ -93,14 +93,6 @@ export interface PanelPage {
 
 export type Data = TypeListElement | CustomerListElement | VehicleListElement | ProductListElement | TypeListElement | MaintenanceListElement;
 
-export interface MaintenanceDTO {
-  data: MaintenanceListElement[]
-}
-
-export interface CustomerDTO {
-  data: CustomerListElement[]
-}
-
-export interface VehicleDTO {
-  data: VehicleListElement[]
+export interface DTO<T> {
+  data: T[]
 }

@@ -2,9 +2,8 @@ import { Tr, Th } from "@chakra-ui/react";
 import TableList from "../../components/TableList";
 
 import { useQuery } from "react-query";
-import { getAllVehicles } from "../../services/VehicleService";
+import { getAllVehicles } from "../../services/vehicleService";
 import { VehicleListElement } from "../../types";
-import { parse } from "date-fns"
 
 const TableListInstantiate = (data : VehicleListElement[]) => (
   <TableList data={data}>

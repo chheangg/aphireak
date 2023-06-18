@@ -1,10 +1,10 @@
 import axios from "./axiosClient";
-import { VehicleDTO } from "../types"
+import { DTO, VehicleListElement } from "../types"
 
 const baseUrl = '/api/vehicles/'
 
 const getAllVehicles = async () => {
-  return axios.get<VehicleDTO>(baseUrl);
+  return axios.get<DTO<VehicleListElement>>(baseUrl);
 }
 
 export { getAllVehicles };

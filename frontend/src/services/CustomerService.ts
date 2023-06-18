@@ -1,10 +1,10 @@
 import axios from "./axiosClient";
-import { CustomerDTO } from "../types"
+import { CustomerListElement, DTO } from "../types"
 
 const baseUrl = '/api/customers/'
 
 const getAllCustomers = async () => {
-  return axios.get<CustomerDTO>(baseUrl);
+  return axios.get<DTO<CustomerListElement>>(baseUrl);
 }
 
 export { getAllCustomers };
