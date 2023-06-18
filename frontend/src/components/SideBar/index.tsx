@@ -5,7 +5,7 @@ interface SidebarProps {
 }
 
 const SideBar = ({ children } : SidebarProps) => (
-  <List spacing='0' borderRight='1px solid' borderColor='red.500' minH='100%' py='1rem'>
+  <List spacing='0' borderRight='1px solid' borderColor='gray.300' minH='100%' py='1rem'>
     {children}
   </List>
 )

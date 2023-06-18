@@ -1,8 +1,12 @@
 import { Box } from "@chakra-ui/react"
 
-const Navbar = () => (
-  <Box borderBottom='1px solid' borderColor='red.500'>
-    Navbar
+interface NavbarProps {
+  children: string | JSX.Element | JSX.Element[];
+}
+
+const Navbar = ({ children } : NavbarProps) => (
+  <Box borderBottom='1px solid' borderColor='gray.300' px='1rem' py='0.75rem'>
+    {children}
   </Box>
 )
 
