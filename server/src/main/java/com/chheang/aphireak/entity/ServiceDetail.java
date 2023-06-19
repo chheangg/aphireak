@@ -20,6 +20,9 @@ public class ServiceDetail {
     @Column(name = "oil_type")
     private String oilType;
 
+    @Column(name = "change_engine_oil")
+    private boolean changeEngineOil;
+
     @Column(name = "change_oil_filter")
     private boolean changeOilFilter;
 
@@ -132,6 +135,14 @@ public class ServiceDetail {
 
     public void setCarCheckup(boolean carCheckup) {
         this.carCheckup = carCheckup;
+    }
+
+    public boolean isChangeEngineOil() {
+        return changeEngineOil;
+    }
+
+    public void setChangeEngineOil(boolean changeEngineOil) {
+        this.changeEngineOil = changeEngineOil;
     }
 
     public String getOther() {

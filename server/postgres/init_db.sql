@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2023-06-15 10:34:35 +07
+-- Started on 2023-06-19 19:03:34 +07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -218,7 +218,8 @@ CREATE TABLE public.service_detail (
     change_air_filter boolean NOT NULL,
     change_transmission boolean NOT NULL,
     car_checkup boolean NOT NULL,
-    other text
+    other text,
+    change_engine_oil boolean DEFAULT false NOT NULL
 );
 
 
@@ -301,7 +302,7 @@ ALTER TABLE public.vehicle ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- TOC entry 3499 (class 2606 OID 21815)
+-- TOC entry 3500 (class 2606 OID 21815)
 -- Name: account account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -310,7 +311,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- TOC entry 3501 (class 2606 OID 21817)
+-- TOC entry 3502 (class 2606 OID 21817)
 -- Name: account account_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -319,7 +320,7 @@ ALTER TABLE ONLY public.account
 
 
 --
--- TOC entry 3503 (class 2606 OID 21825)
+-- TOC entry 3504 (class 2606 OID 21825)
 -- Name: authorities authorities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -328,7 +329,7 @@ ALTER TABLE ONLY public.authorities
 
 
 --
--- TOC entry 3487 (class 2606 OID 21776)
+-- TOC entry 3488 (class 2606 OID 21776)
 -- Name: customer customer_full_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -337,7 +338,7 @@ ALTER TABLE ONLY public.customer
 
 
 --
--- TOC entry 3489 (class 2606 OID 21778)
+-- TOC entry 3490 (class 2606 OID 21778)
 -- Name: customer customer_phone_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -346,7 +347,7 @@ ALTER TABLE ONLY public.customer
 
 
 --
--- TOC entry 3491 (class 2606 OID 21774)
+-- TOC entry 3492 (class 2606 OID 21774)
 -- Name: customer customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -355,7 +356,7 @@ ALTER TABLE ONLY public.customer
 
 
 --
--- TOC entry 3513 (class 2606 OID 21864)
+-- TOC entry 3514 (class 2606 OID 21864)
 -- Name: maintenance_detail maintenance_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -364,7 +365,7 @@ ALTER TABLE ONLY public.maintenance_detail
 
 
 --
--- TOC entry 3515 (class 2606 OID 21878)
+-- TOC entry 3516 (class 2606 OID 21878)
 -- Name: maintenance maintnenace_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -373,7 +374,7 @@ ALTER TABLE ONLY public.maintenance
 
 
 --
--- TOC entry 3509 (class 2606 OID 21851)
+-- TOC entry 3510 (class 2606 OID 21851)
 -- Name: product product_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -382,7 +383,7 @@ ALTER TABLE ONLY public.product
 
 
 --
--- TOC entry 3511 (class 2606 OID 21849)
+-- TOC entry 3512 (class 2606 OID 21849)
 -- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -391,7 +392,7 @@ ALTER TABLE ONLY public.product
 
 
 --
--- TOC entry 3493 (class 2606 OID 21786)
+-- TOC entry 3494 (class 2606 OID 21786)
 -- Name: service_detail service_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -400,7 +401,7 @@ ALTER TABLE ONLY public.service_detail
 
 
 --
--- TOC entry 3505 (class 2606 OID 21840)
+-- TOC entry 3506 (class 2606 OID 21840)
 -- Name: type type_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -409,7 +410,7 @@ ALTER TABLE ONLY public.type
 
 
 --
--- TOC entry 3507 (class 2606 OID 21838)
+-- TOC entry 3508 (class 2606 OID 21838)
 -- Name: type type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -418,7 +419,7 @@ ALTER TABLE ONLY public.type
 
 
 --
--- TOC entry 3495 (class 2606 OID 21794)
+-- TOC entry 3496 (class 2606 OID 21794)
 -- Name: vehicle vehicle_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -427,7 +428,7 @@ ALTER TABLE ONLY public.vehicle
 
 
 --
--- TOC entry 3497 (class 2606 OID 21796)
+-- TOC entry 3498 (class 2606 OID 21796)
 -- Name: vehicle vehicle_plate_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -436,7 +437,7 @@ ALTER TABLE ONLY public.vehicle
 
 
 --
--- TOC entry 3518 (class 2606 OID 21826)
+-- TOC entry 3519 (class 2606 OID 21826)
 -- Name: authorities authorities_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -445,7 +446,7 @@ ALTER TABLE ONLY public.authorities
 
 
 --
--- TOC entry 3520 (class 2606 OID 21899)
+-- TOC entry 3521 (class 2606 OID 21899)
 -- Name: maintenance_detail maintenance_detail_maintenance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -454,7 +455,7 @@ ALTER TABLE ONLY public.maintenance_detail
 
 
 --
--- TOC entry 3521 (class 2606 OID 21865)
+-- TOC entry 3522 (class 2606 OID 21865)
 -- Name: maintenance_detail maintenance_detail_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -463,7 +464,7 @@ ALTER TABLE ONLY public.maintenance_detail
 
 
 --
--- TOC entry 3522 (class 2606 OID 21879)
+-- TOC entry 3523 (class 2606 OID 21879)
 -- Name: maintenance maintnenace_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -472,7 +473,7 @@ ALTER TABLE ONLY public.maintenance
 
 
 --
--- TOC entry 3523 (class 2606 OID 21884)
+-- TOC entry 3524 (class 2606 OID 21884)
 -- Name: maintenance maintnenace_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -481,7 +482,7 @@ ALTER TABLE ONLY public.maintenance
 
 
 --
--- TOC entry 3524 (class 2606 OID 21889)
+-- TOC entry 3525 (class 2606 OID 21889)
 -- Name: maintenance maintnenace_vehicle_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -490,7 +491,7 @@ ALTER TABLE ONLY public.maintenance
 
 
 --
--- TOC entry 3519 (class 2606 OID 21852)
+-- TOC entry 3520 (class 2606 OID 21852)
 -- Name: product product_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -499,7 +500,7 @@ ALTER TABLE ONLY public.product
 
 
 --
--- TOC entry 3516 (class 2606 OID 21802)
+-- TOC entry 3517 (class 2606 OID 21802)
 -- Name: vehicle vehicle_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -508,7 +509,7 @@ ALTER TABLE ONLY public.vehicle
 
 
 --
--- TOC entry 3517 (class 2606 OID 21797)
+-- TOC entry 3518 (class 2606 OID 21797)
 -- Name: vehicle vehicle_service_detail_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -516,7 +517,7 @@ ALTER TABLE ONLY public.vehicle
     ADD CONSTRAINT vehicle_service_detail_fkey FOREIGN KEY (service_detail_id) REFERENCES public.service_detail(id);
 
 
--- Completed on 2023-06-15 10:34:36 +07
+-- Completed on 2023-06-19 19:03:34 +07
 
 --
 -- PostgreSQL database dump complete

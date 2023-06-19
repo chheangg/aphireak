@@ -33,6 +33,7 @@ const useVehicleForm = () : VehicleFormHook => {
   const [plateNumber, setPlateNumber] = useState<string>("")
   const [oilType, setOilType] = useState<string>("")
   const [other, setOther] = useState<string>("")
+  const [changeEngineOil, setChangeEngineOil] = useState<boolean>(false);
   const [changeOilFilter, setChangeOilFilter] = useState<boolean>(false);
   const [changeCoolant, setChangeCoolant] = useState<boolean>(false);
   const [changeBrakeFluid, setChangeBrakeFluid] = useState<boolean>(false);
@@ -113,6 +114,12 @@ const useVehicleForm = () : VehicleFormHook => {
           </FormControl>
         </Grid>
         <FormControl mt='1rem' as={SimpleGrid} columns={{ base: 2, lg: 4 }}>
+          <FormLabel htmlFor='engineOil'>Change Engine Oil</FormLabel>
+          <Switch 
+            isChecked={changeEngineOil} 
+            onChange={e => setChangeEngineOil(!changeEngineOil)}
+            id='engineOil'
+          />
           <FormLabel htmlFor='oilFilter'>Change Oil Filter</FormLabel>
           <Switch 
             isChecked={changeOilFilter} 
@@ -171,6 +178,7 @@ const useVehicleForm = () : VehicleFormHook => {
         oilType,
         carCheckup,
         other,
+        changeEngineOil,
         changeAirFilter,
         changeBrakeFluid,
         changeCoolant,

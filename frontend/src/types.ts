@@ -38,6 +38,7 @@ export interface Customer extends CustomerListElement {
 export interface ServiceDetail {
   id?: number;
   oilType: string;
+  changeEngineOil: boolean;
   changeOilFilter: boolean;
   changeCoolant: boolean;
   changeBrakeFluid: boolean;

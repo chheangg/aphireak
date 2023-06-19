@@ -36,15 +36,11 @@ public class VehicleServiceImpl implements VehicleService {
     @Transactional
     public Vehicle createVehicle(Vehicle vehicle) {
         // Create serviceDAO and sanitize it
-            // First get the non-sanitized object
-            ServiceDetail serviceDetail = vehicle.getServiceDetail();
             // Set correct vehicle type
-            serviceDetail.setVehicle(vehicle);
+            vehicle.getServiceDetail().setVehicle(vehicle);
             // Set correct ID for object creation
-            serviceDetail.setId(0);
+            vehicle.getServiceDetail().setId(0);
             // Set sanitized service detail to vehicle
-            vehicle.setServiceDetail(serviceDetail);
-
         // Find customer by id and make sure the correct customer is set
         Customer customer = customerDAO.findCustomerById(vehicle.getCustomer().getId());
 

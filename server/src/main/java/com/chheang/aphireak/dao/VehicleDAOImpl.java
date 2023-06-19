@@ -35,6 +35,7 @@ public class VehicleDAOImpl implements VehicleDAO {
     @Override
     public void createVehicle(Vehicle vehicle) {
         vehicle.setId(0);
+        vehicle.getServiceDetail().setId(0);
         entityManager.persist(vehicle);
     }
 

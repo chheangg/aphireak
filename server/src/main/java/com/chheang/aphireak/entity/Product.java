@@ -10,6 +10,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "product")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope= Product.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

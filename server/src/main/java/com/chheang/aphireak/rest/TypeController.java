@@ -25,7 +25,7 @@ public class TypeController {
         List<Type> types = typeService.getTypes();
         List<TypeListElement> formattedTypes = types
                 .stream()
-                .map(t -> new TypeListElement(t.getId(), t.getName()))
+                .map(t -> new TypeListElement(t.getId(), t.getName(), t.getProducts().size()))
                 .toList();
         return new ResponseEntity<>(new ListResponse<>(formattedTypes), HttpStatus.OK);
     }
