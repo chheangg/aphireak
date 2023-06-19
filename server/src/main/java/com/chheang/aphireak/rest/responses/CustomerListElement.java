@@ -4,6 +4,7 @@ public class CustomerListElement {
     private int id;
     private String fullName;
     private String url;
+    private String phoneNumber;
 
     private int numberOfVehicles;
 
@@ -12,11 +13,12 @@ public class CustomerListElement {
 
     }
 
-    public CustomerListElement(int id, String fullName, int numberOfVehicles) {
+    public CustomerListElement(int id, String fullName, int numberOfVehicles, String phoneNumber) {
         this.id = id;
         this.fullName = fullName;
         this.url = "/customers/" + id;
         this.numberOfVehicles = numberOfVehicles;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -49,5 +51,13 @@ public class CustomerListElement {
 
     public void setNumberOfVehicles(int numberOfVehicles) {
         this.numberOfVehicles = numberOfVehicles;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

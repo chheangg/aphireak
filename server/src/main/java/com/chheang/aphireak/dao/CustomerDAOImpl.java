@@ -24,7 +24,6 @@ public class CustomerDAOImpl implements CustomerDAO {
                 + "OR c.phoneNumber LIKE CONCAT('%', :query, '%')";
         TypedQuery<Customer> query = entityManager
                 .createQuery(queryStr , Customer.class);
-        System.out.println(q);
         query.setParameter("query", q);
         return query.getResultList();
     }

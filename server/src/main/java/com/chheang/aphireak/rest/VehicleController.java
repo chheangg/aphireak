@@ -21,8 +21,8 @@ public class VehicleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ListResponse<VehicleListElement>> getVehicles(@RequestParam int customerId) {
-        List<Vehicle> vehicles = vehicleService.getVehicles(customerId);
+    public ResponseEntity<ListResponse<VehicleListElement>> getVehicles() {
+        List<Vehicle> vehicles = vehicleService.getVehicles();
         List<VehicleListElement> formattedVehicles =
                 vehicles
                         .stream()

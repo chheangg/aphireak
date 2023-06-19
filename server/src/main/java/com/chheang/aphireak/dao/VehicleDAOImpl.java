@@ -18,7 +18,7 @@ public class VehicleDAOImpl implements VehicleDAO {
         entityManager = ent;
     }
     @Override
-    public List<Vehicle> getVehicles(int customerId) {
+    public List<Vehicle> getVehicles() {
         String queryStr = "FROM Vehicle v";
         TypedQuery<Vehicle> query = entityManager.createQuery(queryStr, Vehicle.class);
         return query.getResultList();
