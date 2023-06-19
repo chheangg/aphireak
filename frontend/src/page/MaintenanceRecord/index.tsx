@@ -17,7 +17,7 @@ const PanelObj : PanelPage[] = [
   {
     id: 1,
     tabIcon: AiOutlinePlus,
-    tabText: "Create Maintennace Record",
+    tabText: "Create Maintenance Record",
     page: <MaintenanceForm />,
   }
 ]
