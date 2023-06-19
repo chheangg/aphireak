@@ -35,7 +35,7 @@ export const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
           <Tr key={d.id}>
             <Td>{d.name}</Td>
             <Td>{d.typeName}</Td>
-            <Td isNumeric>{(d.priceInCent / 100).toFixed(2)}</Td>
+            <Td isNumeric>$ {(d.priceInCent / 100).toFixed(2)}</Td>
             <Td></Td>
             <Td></Td>
           </Tr>  
@@ -46,8 +46,8 @@ export const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
         .map(d =>
           <Tr key={d.id}>
             <Td>{d.name}</Td>
-            <Td>{d.name}</Td>
-            <Td isNumeric>{d.numberOfProducts}</Td>
+            <Td>{d.numberOfProducts} products</Td>
+            <Td></Td>
             <Td></Td>
             <Td></Td>
           </Tr>  

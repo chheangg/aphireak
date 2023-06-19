@@ -8,9 +8,9 @@ import { TypeListElement} from "../../types";
 const TableListInstantiate = (data : TypeListElement[]) => (
   <TableList data={data}>
     <Tr>
-      <Th color='gray.50'>Product Name</Th>
       <Th color='gray.50'>Type Category</Th>
-      <Th color='gray.50' isNumeric>Product Quantity</Th>
+      <Th color='gray.50'>Product Quantity</Th>
+      <Th></Th>
       <Th></Th>
       <Th></Th>
     </Tr>

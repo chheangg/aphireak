@@ -10,7 +10,7 @@ const TableListInstantiate = (data : ProductListElement[]) => (
     <Tr>
       <Th color='gray.50'>Product Name</Th>
       <Th color='gray.50'>Type Category</Th>
-      <Th color='gray.50' isNumeric>Price</Th>
+      <Th color='gray.50' isNumeric>Price ($)</Th>
       <Th></Th>
       <Th></Th>
     </Tr>

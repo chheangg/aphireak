@@ -8,6 +8,8 @@ export interface ProductListElement {
   type: 'product',
 }
 
+export type Product = Omit<ProductListElement, 'type'> & { type: TypeListElement };
+
 export interface TypeListElement {
   id: number;
   name: string;
