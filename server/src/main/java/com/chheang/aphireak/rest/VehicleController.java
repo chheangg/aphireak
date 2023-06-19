@@ -20,9 +20,9 @@ public class VehicleController {
         vehicleService = ent;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<ListResponse<VehicleListElement>> getVehicles() {
-        List<Vehicle> vehicles = vehicleService.getVehicles();
+    @GetMapping("")
+    public ResponseEntity<ListResponse<VehicleListElement>> getVehicles(@RequestParam int customerId) {
+        List<Vehicle> vehicles = vehicleService.getVehicles(customerId);
         List<VehicleListElement> formattedVehicles =
                 vehicles
                         .stream()
@@ -44,7 +44,7 @@ public class VehicleController {
         return vehicleService.findVehiclesById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Vehicle createVehicle(@RequestBody Vehicle vehicle) {
         return vehicleService.createVehicle(vehicle);
     }

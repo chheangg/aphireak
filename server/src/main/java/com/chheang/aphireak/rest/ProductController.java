@@ -22,7 +22,7 @@ public class ProductController {
         productService = ent;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ListResponse<ProductListElement>> getProducts() {
         List<Product> products = productService.getProducts();
         List<ProductListElement> formatted_products = products
@@ -45,7 +45,7 @@ public class ProductController {
         return productService.findProductById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Product createProduct(@RequestBody Product product) {
         productService.createProduct(product);
         return product;

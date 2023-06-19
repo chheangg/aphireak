@@ -20,7 +20,7 @@ public class TypeController {
         typeService = ent;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ListResponse<TypeListElement>> getTypes() {
         List<Type> types = typeService.getTypes();
         List<TypeListElement> formattedTypes = types
@@ -35,7 +35,7 @@ public class TypeController {
         return typeService.findTypeById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Type createType(@RequestBody Type type) {
         typeService.createType(type);
         return type;

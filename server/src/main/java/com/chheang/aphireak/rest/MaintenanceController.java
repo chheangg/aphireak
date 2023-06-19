@@ -20,7 +20,7 @@ public class MaintenanceController {
         maintenanceService = ent;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ListResponse<MaintenanceListElement>> getMaintenances() {
         List<Maintenance> maintenances = maintenanceService.getMaintenances();
         List<MaintenanceListElement> formatted_maintenances =
@@ -49,7 +49,7 @@ public class MaintenanceController {
         return maintenanceService.findMaintenanceById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Maintenance createMaintenance(@RequestBody Maintenance maintenance) {
         maintenanceService.createMaintenance(maintenance);
         return maintenance;

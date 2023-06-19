@@ -28,7 +28,6 @@ public class Customer {
             mappedBy = "customer",
             cascade = CascadeType.ALL
     )
-    @JsonIdentityReference(alwaysAsId = true)
     private List<Vehicle> vehicles;
 
     @OneToMany(
