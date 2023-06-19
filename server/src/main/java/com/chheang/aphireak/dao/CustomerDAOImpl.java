@@ -18,9 +18,14 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public List<Customer> getCustomers() {
+    public List<Customer> getCustomers(String q) {
+        String queryStr =
+                "FROM Customer c WHERE UPPER(c.fullName) LIKE CONCAT('%', UPPER(:query), '%')"
+                + "OR c.phoneNumber LIKE CONCAT('%', :query, '%')";
         TypedQuery<Customer> query = entityManager
-                .createQuery("FROM Customer c", Customer.class);
+                .createQuery(queryStr , Customer.class);
+        System.out.println(q);
+        query.setParameter("query", q);
         return query.getResultList();
     }
 

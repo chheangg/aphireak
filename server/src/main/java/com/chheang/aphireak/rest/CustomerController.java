@@ -22,9 +22,9 @@ public class CustomerController {
         customerService = ent;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<ListResponse<CustomerListElement>>getCustomers() {
-        List<Customer> customers = customerService.getCustomers();
+    @GetMapping("")
+    public ResponseEntity<ListResponse<CustomerListElement>> getCustomers(@RequestParam String q) {
+        List<Customer> customers = customerService.getCustomers(q);
         List<CustomerListElement> formattedCustomers =
                         customers
                                 .stream()
@@ -39,18 +39,18 @@ public class CustomerController {
         return customerService.findCustomerById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Customer createCustomer(@RequestBody Customer customer) {
         customerService.createCustomer(customer);
         return customer;
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("")
     public Customer updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
         return customerService.updateCustomer(id, customer);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("")
     public ResponseEntity<IdResponse> deleteCustomerById(@PathVariable int id) {
         customerService.deleteCustomerById(id);
         return new ResponseEntity<>(new IdResponse(id), HttpStatus.ACCEPTED);
