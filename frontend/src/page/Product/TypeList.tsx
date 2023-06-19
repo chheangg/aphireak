@@ -1,9 +1,34 @@
-import { Box } from "@chakra-ui/react";
+import { Tr, Th } from "@chakra-ui/react";
+import TableList from "../../components/TableList";
 
-const TypeList = () => (
-  <Box>
-    Type List
-  </Box>
+import { useQuery } from "react-query";
+import { getAllTypes } from "../../services/typeService";
+import { TypeListElement} from "../../types";
+
+const TableListInstantiate = (data : TypeListElement[]) => (
+  <TableList data={data}>
+    <Tr>
+      <Th color='gray.50'>Product Name</Th>
+      <Th color='gray.50'>Type Category</Th>
+      <Th color='gray.50' isNumeric>Product Quantity</Th>
+      <Th></Th>
+      <Th></Th>
+    </Tr>
+  </TableList>
 )
 
-export default TypeList
+const ProductList = () => {
+  const { isLoading, data: response } = useQuery('product', getAllTypes);
+  
+  if (isLoading) {
+    return TableListInstantiate([]);
+  }
+
+  if (response) {
+    return TableListInstantiate(response.data.data.map(d => ({ ...d, type: 'type' })));
+  } else {
+    return TableListInstantiate([]);
+  }
+}
+
+export default ProductList

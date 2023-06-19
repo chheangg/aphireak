@@ -11,6 +11,7 @@ export interface ProductListElement {
 export interface TypeListElement {
   id: number;
   name: string;
+  numberOfProducts: number;
   type: 'type',
 }
 
