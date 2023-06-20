@@ -5,7 +5,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ children } : NavbarProps) => (
-  <Box borderBottom='1px solid' borderColor='gray.300' px='1rem' py='0.75rem' h='10vh'>
+  <Box borderBottom='1px solid' borderColor='gray.300' px='1rem' py='0.75rem'>
     {children}
   </Box>
 )
