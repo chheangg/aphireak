@@ -51,6 +51,7 @@ public class MaintenanceController {
 
     @PostMapping("")
     public Maintenance createMaintenance(@RequestBody Maintenance maintenance) {
+        System.out.println(maintenance.getVehicle());
         maintenanceService.createMaintenance(maintenance);
         return maintenance;
     }

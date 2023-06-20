@@ -45,6 +45,7 @@ public class Account implements UserDetails{
             mappedBy = "account",
             cascade = CascadeType.ALL
     )
+    @JsonIgnore
     private List<Maintenance> maintenances;
 
     public Account() {

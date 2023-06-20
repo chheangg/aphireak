@@ -1,6 +1,7 @@
 package com.chheang.aphireak.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -31,11 +32,10 @@ public class Maintenance {
     private OffsetDateTime timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
     @JsonProperty("customer")
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "account_id")
     @JsonProperty("account")
     private Account account;
