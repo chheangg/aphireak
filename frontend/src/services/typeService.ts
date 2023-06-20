@@ -1,7 +1,7 @@
 import axios from "./axiosClient";
 import { DTO, Type, TypeListElement } from "../types"
 
-const baseUrl = '/api/types/'
+const baseUrl = '/api/types'
 
 const getAllTypes = async () => {
   return axios.get<DTO<TypeListElement>>(baseUrl);

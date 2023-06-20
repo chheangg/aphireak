@@ -9,15 +9,15 @@ const TableListInstantiate = (data : CustomerListElement[]) => (
   <TableList data={data}>
     <Tr>
       <Th color='gray.50'>Customer Name</Th>
+      <Th color='gray.50'>Phone Number</Th>
       <Th color='gray.50'>Vehicles Owned</Th>
-      <Th></Th>
       <Th></Th>
     </Tr>
   </TableList>
 )
 
 const MaintenanceList = () => {
-  const { isLoading, data: response } = useQuery('customer', getAllCustomers);
+  const { isLoading, data: response } = useQuery(['customer', ''], getAllCustomers);
   
   if (isLoading) {
     return TableListInstantiate([]);

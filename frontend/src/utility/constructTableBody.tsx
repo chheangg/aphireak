@@ -23,8 +23,8 @@ export const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
         .map(d =>
           <Tr key={d.id}>
             <Td>{d.fullName}</Td>
+            <Td>{d.phoneNumber}</Td>
             <Td>{d.numberOfVehicles}</Td>
-            <Td></Td>
             <Td></Td>
           </Tr>  
         );

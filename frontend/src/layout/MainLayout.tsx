@@ -6,7 +6,7 @@ interface MainLayoutProps {
 
 // Default Template Layout
 const MainLayout = ({ children } : MainLayoutProps) => (
-  <Grid gridTemplateColumns='25ch 1fr' flex='1'>
+  <Grid gridTemplateColumns='25ch 1fr' flex='1' maxH='100%' h='95vh'>
     {children}
   </Grid>
 )

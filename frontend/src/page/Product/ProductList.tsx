@@ -18,7 +18,7 @@ const TableListInstantiate = (data : ProductListElement[]) => (
 )
 
 const ProductList = () => {
-  const { isLoading, data: response } = useQuery('product', getAllProducts);
+  const { isLoading, data: response } = useQuery(['product', ''], getAllProducts);
   
   if (isLoading) {
     return TableListInstantiate([]);

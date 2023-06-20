@@ -6,7 +6,7 @@ interface PageLayoutProps {
 
 // Default Template Layout
 const PageLayout = ({ children } : PageLayoutProps) => (
-  <Box py='3ch' px='5ch'>
+  <Box maxH='100%' h='100%' overflowY='scroll' py='3ch' px='5ch'>
     {children}
   </Box>
 )

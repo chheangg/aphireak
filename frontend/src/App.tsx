@@ -22,7 +22,7 @@ import Product from "./page/Product";
 
 const App = () => {
   return (
-    <Flex bgColor='gray.50' minH='100vh' flexDir='column' color='gray.700'>
+    <Flex bgColor='gray.50' h='100vh' maxH='100vh' overflowY='hidden' flexDir='column' color='gray.700'>
       {/* Nav bar */}
       <Navbar>
         <LogoBtn logoImg={logoImg} />

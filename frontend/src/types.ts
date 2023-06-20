@@ -26,12 +26,12 @@ export interface CustomerListElement {
   fullName: string;
   url: string
   numberOfVehicles?: number;
+  phoneNumber: string;
   type: 'customer';
 }
 
 export interface Customer extends CustomerListElement {
-  phoneNumber: string;
-  vehicles: number[];
+  vehicles: Vehicle[];
   maintenances: number[];
 }
 
@@ -65,7 +65,7 @@ export interface Vehicle extends VehicleListElement {
 }
 
 export interface MaintenancePrototype {
-  id: number;
+  id?: number;
   totalCostInCent: number;
   paid: boolean;
   timestamp: Date
@@ -74,7 +74,6 @@ export interface MaintenancePrototype {
 
 export interface Account {
   id: number;
-  username: string;
 }
 
 export interface MaintenanceListElement extends MaintenancePrototype {
@@ -85,7 +84,10 @@ export interface MaintenanceListElement extends MaintenancePrototype {
 }
 
 export interface Maintenance extends MaintenancePrototype {
-  customer: CustomerListElement;
+  customer: CustomerListElement | Customer | null;
+  account: Account,
+  vehicle: VehicleListElement | Vehicle | null;
+  serviceDetails: MaintenanceDetail[];
 }
 
 export interface PanelPage {
@@ -99,4 +101,11 @@ export type Data = TypeListElement | CustomerListElement | VehicleListElement | 
 
 export interface DTO<T> {
   data: T[]
+}
+
+export interface MaintenanceDetail {
+  id?: string;
+  quantity: number;
+  priceInCent: number;
+  product: ProductListElement | Product;
 }
