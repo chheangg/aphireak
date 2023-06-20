@@ -16,8 +16,11 @@ public class ProductDAOImpl implements ProductDAO {
     public ProductDAOImpl(EntityManager ent) {
         entityManager = ent;
     }
-    public List<Product> getProducts() {
-        TypedQuery<Product> products = entityManager.createQuery("FROM Product", Product.class);
+    public List<Product> getProducts(String q) {
+        String queryStr =
+                "FROM Product p WHERE UPPER(p.name) LIKE CONCAT('%', UPPER(:query), '%')";
+        TypedQuery<Product> products = entityManager.createQuery(queryStr, Product.class);
+        products.setParameter("query", q);
         return products.getResultList();
     }
 

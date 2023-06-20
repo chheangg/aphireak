@@ -23,8 +23,8 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ListResponse<ProductListElement>> getProducts() {
-        List<Product> products = productService.getProducts();
+    public ResponseEntity<ListResponse<ProductListElement>> getProducts(@RequestParam String q) {
+        List<Product> products = productService.getProducts(q);
         List<ProductListElement> formatted_products = products
                 .stream()
                 .map(p -> new ProductListElement(
