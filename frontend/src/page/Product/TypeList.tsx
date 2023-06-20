@@ -13,6 +13,8 @@ const TableListInstantiate = (data : TypeListElement[]) => (
       <Th></Th>
       <Th></Th>
       <Th></Th>
+      <Th></Th>
+      <Th></Th>
     </Tr>
   </TableList>
 )

@@ -12,6 +12,9 @@ const TableListInstantiate = (data : CustomerListElement[]) => (
       <Th color='gray.50'>Phone Number</Th>
       <Th color='gray.50'>Vehicles Owned</Th>
       <Th></Th>
+      <Th></Th>
+      <Th></Th>
+      <Th></Th>
     </Tr>
   </TableList>
 )

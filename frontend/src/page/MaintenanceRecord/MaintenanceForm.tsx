@@ -4,13 +4,14 @@ import useMaintenanceForm from "../../hooks/useMaintenanceForm";
 import { createMaintenance } from "../../services/maintenanceService";
 
 const MaintenanceForm = () => {
-  const { FormComponent, formValue } = useMaintenanceForm();
+  const { FormComponent, formValue } = useMaintenanceForm({ isUpdate: false });
   const newMaintenanceMutation = useMutation(createMaintenance);
 
   const onSubmit = () => {
-    console.log(formValue)
-    formValue.serviceDetails.forEach(md => delete md.id);
-    newMaintenanceMutation.mutate(formValue);
+    if (formValue) {
+      formValue.serviceDetails.forEach(md => delete md.id);
+      newMaintenanceMutation.mutate(formValue);
+    }
   }
 
   return (

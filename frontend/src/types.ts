@@ -84,9 +84,9 @@ export interface MaintenanceListElement extends MaintenancePrototype {
 }
 
 export interface Maintenance extends MaintenancePrototype {
-  customer: CustomerListElement | Customer | null;
-  account: Account,
-  vehicle: VehicleListElement | Vehicle | null;
+  customer: CustomerListElement | Customer;
+  account: Account | null,
+  vehicle: VehicleListElement;
   serviceDetails: MaintenanceDetail[];
 }
 

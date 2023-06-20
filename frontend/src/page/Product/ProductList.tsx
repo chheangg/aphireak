@@ -13,6 +13,8 @@ const TableListInstantiate = (data : ProductListElement[]) => (
       <Th color='gray.50' isNumeric>Price ($)</Th>
       <Th></Th>
       <Th></Th>
+      <Th></Th>
+      <Th></Th>
     </Tr>
   </TableList>
 )

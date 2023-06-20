@@ -1,5 +1,6 @@
 import axios from "./axiosClient";
 import { DTO, Maintenance, MaintenanceListElement } from "../types"
+import { QueryFunctionContext } from "react-query";
 
 const baseUrl = '/api/maintenances'
 
@@ -8,6 +9,9 @@ const getAllMaintenances = async () => {
 }
 
 const createMaintenance = async (maintenance : Maintenance) => 
-  axios.post(baseUrl, maintenance)
+  axios.post<Maintenance>(baseUrl, maintenance)
 
-export { getAllMaintenances, createMaintenance };
+const getMaintenance = async ({ queryKey } : QueryFunctionContext<[string, string | null | undefined]>) => 
+  axios.get<Maintenance>(baseUrl + `/${queryKey[1]}`);
+
+export { getAllMaintenances, createMaintenance, getMaintenance };

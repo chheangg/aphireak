@@ -47,11 +47,26 @@ const App = () => {
           <Routes>
             {/* Make /maintnenace the default route on visiting the website */}
             <Route element={<Navigate to='/maintenances' />} path='/' />
-            <Route element={<MaintenanceRecord />} path='/maintenances' index />
+            <Route path='/maintenances'>
+              <Route element={<MaintenanceRecord />} index />
+              <Route element={<div>id</div>} path=":id" />
+            </Route>
             <Route element={<div>Upcoming Maintenance</div>} path='/upcoming-maintenances' />
-            <Route element={<Customer />} path='/customers' />
-            <Route element={<Vehicle />} path='/vehicles' />
-            <Route element={<Product />} path='/products' />
+            <Route path='/customers'>
+              <Route element={<Customer />} index />
+              <Route element={<div>id</div>} path=":id" />
+            </Route>
+            <Route path='/vehicles'>
+              <Route element={<Vehicle />} index />
+              <Route element={<div>id</div>} path=":id" />
+            </Route>
+            <Route path='/products'>
+              <Route element={<Product />} index />
+              <Route element={<div>id</div>} path=":id" />
+            </Route>
+            <Route path="/types">
+              <Route element={<div>id</div>} path=":id" />
+            </Route>
             <Route element={<div>account</div>} path='/accounts' />
           </Routes>
         </PageLayout>
