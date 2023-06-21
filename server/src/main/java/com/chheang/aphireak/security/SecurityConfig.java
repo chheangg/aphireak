@@ -61,6 +61,7 @@ public class SecurityConfig {
                   configurer
                           .requestMatchers("/sign-up").permitAll()
                           .requestMatchers("/login").permitAll()
+                          .requestMatchers("/is-init").permitAll()
                           .anyRequest().authenticated();
                 });
 

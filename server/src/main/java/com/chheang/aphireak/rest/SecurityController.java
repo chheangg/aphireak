@@ -1,12 +1,14 @@
 package com.chheang.aphireak.rest;
 
 import com.chheang.aphireak.entity.Account;
+import com.chheang.aphireak.rest.responses.InitResponse;
 import com.chheang.aphireak.rest.responses.JwtResponse;
 import com.chheang.aphireak.security.JwtRequestFilter;
 import com.chheang.aphireak.security.JwtTokenUtil;
 import com.chheang.aphireak.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,10 +16,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
@@ -34,6 +33,14 @@ public class SecurityController {
         userDetailsService = uds;
         authenticationManager = auth;
         jwtTokenUtil = jwt;
+    }
+
+    @GetMapping("/is-init")
+    public ResponseEntity<InitResponse> checkInit() {
+        boolean isInitializationMode = securityService.isInitializationMode();
+        return new ResponseEntity<>(
+                new InitResponse(isInitializationMode), HttpStatus.OK
+        );
     }
 
     @PostMapping("/sign-up")
@@ -53,7 +60,7 @@ public class SecurityController {
         final UserDetails userDetails =
                 userDetailsService.loadUserByUsername(account.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
     private void authenticate(String username, String password) throws Exception {

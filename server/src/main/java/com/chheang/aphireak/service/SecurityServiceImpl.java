@@ -24,7 +24,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (accountDAO.findByUsername(account.getUsername()) != null) {
             throw new RuntimeException();
         }
-
+        account.setEnabled(true);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountDAO.createAccount(account);
     }
