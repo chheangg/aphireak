@@ -39,6 +39,26 @@ public class VehicleController {
         return new ResponseEntity<>(new ListResponse<>(formattedVehicles), HttpStatus.OK);
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<ListResponse<VehicleListElement>> getVehiclesWithinDays(@RequestParam String days) {
+        int withinDays = Integer.parseInt(days);
+        List<Vehicle> vehicles = vehicleService.getVehiclesWithinDays(withinDays);
+        List<VehicleListElement> formattedVehicles =
+                vehicles
+                        .stream()
+                        .map((v -> new VehicleListElement(
+                                v.getId(),
+                                v.getVehicleName(),
+                                v.getVehicleType(),
+                                v.getPlateNumber(),
+                                v.getNextService(),
+                                v.getCustomer().getFullName(),
+                                v.getCustomer().getId()
+                        )))
+                        .toList();
+        return new ResponseEntity<>(new ListResponse<>(formattedVehicles), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public Vehicle findVehicleById(@PathVariable int id) {
         return vehicleService.findVehiclesById(id);

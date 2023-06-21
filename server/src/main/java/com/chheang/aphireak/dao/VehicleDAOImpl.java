@@ -5,8 +5,13 @@ import com.chheang.aphireak.entity.Vehicle;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Repository
@@ -21,6 +26,15 @@ public class VehicleDAOImpl implements VehicleDAO {
     public List<Vehicle> getVehicles() {
         String queryStr = "FROM Vehicle v";
         TypedQuery<Vehicle> query = entityManager.createQuery(queryStr, Vehicle.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Vehicle> getVehiclesWithinDays(int days) {
+        String queryStr = "FROM Vehicle v WHERE v.nextService >= NOW() AND v.nextService <= :days";
+        TypedQuery<Vehicle> query = entityManager.createQuery(queryStr, Vehicle.class);
+        LocalDate targetDate = LocalDate.now().plus(Period.ofDays(days));
+        query.setParameter("days", targetDate);
         return query.getResultList();
     }
 

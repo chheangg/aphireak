@@ -28,6 +28,11 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public List<Vehicle> getVehiclesWithinDays(int days) {
+        return vehicleDAO.getVehiclesWithinDays(days);
+    }
+
+    @Override
     public Vehicle findVehiclesById(int id) {
         return vehicleDAO.findVehicleById(id);
     }
