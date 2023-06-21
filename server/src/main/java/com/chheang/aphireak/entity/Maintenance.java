@@ -47,7 +47,8 @@ public class Maintenance {
 
     @OneToMany(
             mappedBy = "maintenance",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     @JsonProperty("serviceDetails")
     private List<MaintenanceDetail> maintenanceDetails;
@@ -124,6 +125,10 @@ public class Maintenance {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public void removeMaintenanceDetail(MaintenanceDetail maintenanceDetail) {
+        maintenanceDetails.remove(maintenanceDetail);
     }
 
     @Override

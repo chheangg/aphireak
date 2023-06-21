@@ -26,7 +26,6 @@ public class MaintenanceDetail {
     private Product product;
 
     @ManyToOne(
-            cascade = CascadeType.ALL
     )
     @JoinColumn(name = "maintenance_id")
     private Maintenance maintenance;

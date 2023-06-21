@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -48,18 +50,21 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         Customer customer = customerDAO.findCustomerById(maintenance.getCustomer().getId());
 
         if (customer == null) {
+            System.out.println("1");
             throw new RuntimeException();
         }
 
         Vehicle vehicle = vehicleDAO.findVehicleById(maintenance.getVehicle().getId());
 
         if (vehicle == null) {
+            System.out.println("2");
             throw new RuntimeException();
         }
 
         Account account = accountDAO.findAccountById(maintenance.getAccount().getId());
 
         if (account == null) {
+            System.out.println("3");
             throw new RuntimeException();
         }
 
@@ -90,24 +95,41 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         Maintenance maintenance1 = maintenanceDAO.findMaintenanceById(maintenance.getId());
 
         if (maintenance1 == null) {
+            System.out.println("1");
             throw new RuntimeException();
         }
 
         Vehicle vehicle = vehicleDAO.findVehicleById(maintenance.getVehicle().getId());
 
-        if (vehicle != maintenance1.getVehicle()) {
+        if (vehicle.getId() != maintenance1.getVehicle().getId()) {
+            System.out.println("2");
             throw new RuntimeException();
         }
 
         Account account = accountDAO.findAccountById(maintenance.getAccount().getId());
 
-        if (account != maintenance1.getAccount()) {
+        if (account.getId() != maintenance1.getAccount().getId()) {
+            System.out.println("3");
             throw new RuntimeException();
+        }
+
+        Set<Integer> set = new HashSet<>();
+
+        maintenance.getMaintenanceDetails().forEach(md -> {
+            set.add(md.getId());
+        });
+
+        // remove every maintenance detail that is not part of the new maintenance detail
+        for (int index = 0; index < maintenance1.getMaintenanceDetails().size(); ++index) {
+            MaintenanceDetail md = maintenance1.getMaintenanceDetails().get(index);
+            boolean inSet = set.contains(md.getId());
+            if (!inSet) {
+                maintenance1.removeMaintenanceDetail(md);
+            }
         }
 
         // Check in each maintenance detail if the product is empty
         maintenance.getMaintenanceDetails().forEach(d -> {
-            d.setId(0);
             Product p = d.getProduct();
             Product product = productDAO.findProductById(p.getId());
 
@@ -115,9 +137,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 d.setProduct(product);
                 d.setMaintenance(maintenance);
             } else {
+                System.out.println("5");
                 throw new RuntimeException();
             }
         });
+
+
 
         return maintenanceDAO.updateMaintenance(id, maintenance);
     }

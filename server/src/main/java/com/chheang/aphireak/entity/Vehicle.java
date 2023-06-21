@@ -11,7 +11,7 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
-        scope= Vehicle.class)
+        scope= Vehicle.class    )
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

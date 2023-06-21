@@ -45,7 +45,7 @@ public class CustomerController {
         return customer;
     }
 
-    @PutMapping("")
+    @PutMapping("/{id}")
     public Customer updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
         return customerService.updateCustomer(id, customer);
     }
