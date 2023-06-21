@@ -1,12 +1,11 @@
 import axios from "./axiosClient";
-import { DTO, Vehicle, VehicleListElement } from "../types"
+import { DTO, DeleteResponse, Vehicle, VehicleListElement } from "../types"
 import { QueryFunctionContext } from "react-query";
 
 const baseUrl = '/api/vehicles'
 
-const getAllVehicles = async () => {
-  return axios.get<DTO<VehicleListElement>>(baseUrl);
-}
+const getAllVehicles = async () => 
+  axios.get<DTO<VehicleListElement>>(baseUrl);
 
 const createVehicle = async (vehicle: Vehicle) =>
   axios.post<Vehicle>(baseUrl, vehicle)
@@ -17,4 +16,7 @@ const getVehicle = async ({ queryKey }: QueryFunctionContext<[string, string | n
 const updateVehicle = async (vehicle: Vehicle) =>
   axios.put<Vehicle>(baseUrl + '/' + vehicle.id, vehicle)
 
-export { getAllVehicles, createVehicle, getVehicle, updateVehicle };
+const deleteVehicle = async (id : number) =>
+  axios.delete<DeleteResponse>(baseUrl + '/' + id);
+
+export { getAllVehicles, createVehicle, getVehicle, updateVehicle, deleteVehicle };

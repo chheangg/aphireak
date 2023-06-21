@@ -1,12 +1,11 @@
 import axios from "./axiosClient";
-import { DTO, ProductListElement, Product } from "../types"
+import { DTO, ProductListElement, Product, DeleteResponse } from "../types"
 import { QueryFunctionContext } from "react-query";
 
 const baseUrl = '/api/products'
 
 const getAllProducts = async ({ queryKey }: QueryFunctionContext<[string, string | null | undefined]>) => 
   axios.get<DTO<ProductListElement>>(baseUrl+ '?type=0&q=' + queryKey[1]);
-
 
 const getAllProductByType = async ({ queryKey }: QueryFunctionContext<[string, number | string | null | undefined]>) => 
   axios.get<DTO<ProductListElement>>(baseUrl+ '?q=a&type=' + queryKey[1]);
@@ -20,4 +19,8 @@ const createProduct = async (product : Product) =>
 const updateProduct = async (product : Product) => 
   axios.put<Product>(baseUrl + '/' + product.id, product)
 
-export { getAllProducts, createProduct, getAllProductByType, getProduct, updateProduct };
+  const deleteProduct = async (id : number) =>
+  axios.delete<DeleteResponse>(baseUrl + '/' + id);
+
+
+export { getAllProducts, createProduct, getAllProductByType, getProduct, updateProduct, deleteProduct };

@@ -4,9 +4,10 @@ import TableList from "../../components/TableList";
 import { useQuery } from "react-query";
 import { getAllTypes } from "../../services/typeService";
 import { TypeListElement} from "../../types";
+import { useEffect, useState } from "react";
 
-const TableListInstantiate = (data : TypeListElement[]) => (
-  <TableList data={data}>
+const TableListInstantiate = (data : TypeListElement[], removeType: (id: number) => void) => (
+  <TableList data={data} onRemove={removeType}>
     <Tr>
       <Th color='gray.50'>Type Category</Th>
       <Th color='gray.50'>Product Quantity</Th>
@@ -19,18 +20,30 @@ const TableListInstantiate = (data : TypeListElement[]) => (
   </TableList>
 )
 
-const ProductList = () => {
-  const { isLoading, data: response } = useQuery('product', getAllTypes);
+const TypeList = () => {
+  const { isLoading, data: response } = useQuery('type', getAllTypes);
+
+  const [type, setType] = useState<TypeListElement[]>([]);
+
+  const removeType = (id : number) => {
+    setType(type.filter(t => t.id !== id))
+  }
+
+  useEffect(() => {
+    if (response && response.data) {
+      setType(response.data.data)
+    }
+  }, [response])
   
   if (isLoading) {
-    return TableListInstantiate([]);
+    return TableListInstantiate([], removeType);
   }
 
   if (response) {
-    return TableListInstantiate(response.data.data.map(d => ({ ...d, type: 'type' })));
+    return TableListInstantiate(type.map(d => ({ ...d, type: 'type' })), removeType);
   } else {
-    return TableListInstantiate([]);
+    return TableListInstantiate([], removeType);
   }
 }
 
-export default ProductList
+export default TypeList

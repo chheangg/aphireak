@@ -21,6 +21,10 @@ const useTypeForm = ({ isUpdate, type } : TypeFormProps) : TypeFormHook => {
   const [products, setProducts] = useState<ProductListElement[]>([]);
   const typeId = type ? type.id : 0;
 
+  const removeProduct = (id: number) => {
+    setProducts(products.filter(p => p.id !== id))
+  }
+
   const { isLoading, data: response } = useQuery(['type-' + typeId, typeId],getAllProductByType, {
     enabled: isUpdate,
   }) 
@@ -54,7 +58,7 @@ const useTypeForm = ({ isUpdate, type } : TypeFormProps) : TypeFormHook => {
           :
           <Box my='1rem'>
             <Heading mb='1rem' fontSize='1.2rem' as={chakra.h3}>Product under this type</Heading>
-            {TableListInstantiate(products.map(p => ({...p, type: 'product'})))}
+            {TableListInstantiate(products.map(p => ({...p, type: 'product'})), removeProduct)}
           </Box>
         }
         <Button type="submit" mt='1rem' colorScheme='orange'>Update Type</Button>

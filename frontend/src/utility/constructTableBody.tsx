@@ -2,9 +2,23 @@ import { Tr, Td, Link, Button, Box, Text } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { Data, MaintenanceListElement, CustomerListElement, ProductListElement, TypeListElement, VehicleListElement } from "../types";
 import { Link as ReachLink, useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { deleteVehicle } from "../services/vehicleService";
+import { deleteMaintenance } from "../services/maintenanceService";
+import { deleteCustomer } from "../services/customerService";
+import { deleteProduct } from "../services/productService";
+import { deleteType } from "../services/typeService";
 
-export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] | null => {
+
+export const constructTableBody = (data: Data[], onRemove: (id : number) => void) : JSX.Element | JSX.Element[] | null => {
   const navigate = useNavigate();
+
+  const deleteMaintenaceMutation = useMutation(deleteMaintenance)
+  const deleteCustomerMutation = useMutation(deleteCustomer)
+  const deleteVehicleMutation = useMutation(deleteVehicle)
+  const deleteTypeMutation = useMutation(deleteType)
+  const deleteProductMutation = useMutation(deleteProduct)
+
   if (data[0]) {
     switch(data[0].type) {
       case 'maintenance':
@@ -22,7 +36,17 @@ export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] |
                     <Link as={ReachLink} to={'/maintenances/' + d.id}>Detail/Edit</Link>
                   </Button>
                 </Td>
-                <Td></Td>
+                <Td>
+                  <Button colorScheme="red" onClick={(e) => {
+                    if (d.id) {
+                      e.stopPropagation();
+                      deleteMaintenaceMutation.mutate(d.id);
+                      onRemove(d.id);
+                    }
+                  }}>
+                    Delete
+                  </Button>
+                </Td>
             </Tr>  
           );
       case 'customer':
@@ -35,10 +59,20 @@ export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] |
             <Td>{d.numberOfVehicles}</Td>
             <Td></Td>
             <Td></Td>
-            <Td></Td>
             <Td>
               <Button colorScheme="green">
                 <Link as={ReachLink} to={'/customers/' + d.id}>Detail/Edit</Link>
+              </Button>
+            </Td>
+            <Td>
+              <Button colorScheme="red" onClick={(e) => {
+                    if (d.id) {
+                      e.stopPropagation();
+                      deleteCustomerMutation.mutate(d.id);
+                      onRemove(d.id);
+                    }
+                  }}>
+                    Delete
               </Button>
             </Td>
           </Tr>  
@@ -58,7 +92,17 @@ export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] |
                 <Link as={ReachLink} to={'/products/' + d.id}>Detail/Edit</Link>
               </Button>
             </Td>
-            <Td></Td>
+            <Td>
+              <Button colorScheme="red" onClick={(e) => {
+                    if (d.id) {
+                      e.stopPropagation();
+                      deleteProductMutation.mutate(d.id);
+                      onRemove(d.id);
+                    }
+                  }}>
+                    Delete
+              </Button>
+            </Td>
           </Tr>  
         );
       case 'type':
@@ -76,7 +120,17 @@ export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] |
                 <Link as={ReachLink} to={'/types/' + d.id}>Detail/Edit</Link>
               </Button>
             </Td>
-            <Td></Td>
+            <Td>
+              <Button colorScheme="red" onClick={(e) => {
+                    if (d.id) {
+                      e.stopPropagation();
+                      deleteTypeMutation.mutate(d.id)
+                      onRemove(d.id);
+                    }
+                  }}>
+                    Delete
+              </Button>
+            </Td>
           </Tr>  
         );
       case 'vehicle':
@@ -94,7 +148,17 @@ export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] |
                 <Link as={ReachLink} to={'/customers/' + d.id}>Detail/Edit</Link>
               </Button>
             </Td>
-            <Td></Td>
+            <Td>
+              <Button colorScheme="red" onClick={(e) => {
+                    if (d.id) {
+                      e.stopPropagation();
+                      deleteVehicleMutation.mutate(d.id);
+                      onRemove(d.id);
+                    }
+                  }}>
+                    Delete
+              </Button>
+            </Td>
           </Tr>  
         );
       default:

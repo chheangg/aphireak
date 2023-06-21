@@ -1,12 +1,12 @@
 import axios from "./axiosClient";
 import { QueryFunctionContext } from 'react-query'
-import { Customer, CustomerListElement, DTO } from "../types"
+import { Customer, CustomerListElement, DTO, DeleteResponse } from "../types"
 
 const baseUrl = '/api/customers'
 
-const getAllCustomers = async ({ queryKey }: QueryFunctionContext<[string, string | null | undefined]>) => {
-  return axios.get<DTO<CustomerListElement>>(baseUrl + '?q=' + queryKey[1]);
-}
+const getAllCustomers = async ({ queryKey }: QueryFunctionContext<[string, string | null | undefined]>) =>
+ axios.get<DTO<CustomerListElement>>(baseUrl + '?q=' + queryKey[1]);
+
 
 const getCustomer = async ({ queryKey }: QueryFunctionContext<[string, string | null | undefined]>) => 
   axios.get<Customer>(baseUrl + '/' + queryKey[1])
@@ -17,4 +17,7 @@ const createCustomer = async (customer: Customer) =>
 const updateCustomer = async (customer: Customer) => 
   axios.put<Customer>(baseUrl + '/' + customer.id, customer)
 
-export { getAllCustomers, createCustomer, getCustomer, updateCustomer };
+const deleteCustomer = async (id : number) =>
+  axios.delete<DeleteResponse>(baseUrl + '/' + id);
+
+export { getAllCustomers, createCustomer, getCustomer, updateCustomer, deleteCustomer };

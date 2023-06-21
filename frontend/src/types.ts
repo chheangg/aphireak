@@ -111,3 +111,7 @@ export interface MaintenanceDetail {
   priceInCent: number;
   product: ProductListElement | Product | number;
 }
+
+export interface DeleteResponse {
+  id: number;
+}

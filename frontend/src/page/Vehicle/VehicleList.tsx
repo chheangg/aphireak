@@ -4,9 +4,10 @@ import TableList from "../../components/TableList";
 import { useQuery } from "react-query";
 import { getAllVehicles } from "../../services/vehicleService";
 import { VehicleListElement } from "../../types";
+import { useEffect, useState } from "react";
 
-const TableListInstantiate = (data : VehicleListElement[]) => (
-  <TableList data={data}>
+const TableListInstantiate = (data : VehicleListElement[], removeVehicle: (id: number) => void) => (
+  <TableList data={data} onRemove={removeVehicle}>
     <Tr>
       <Th color='gray.50'>Vehicle Name</Th>
       <Th color='gray.50'>Type</Th>
@@ -21,17 +22,27 @@ const TableListInstantiate = (data : VehicleListElement[]) => (
 
 const VehicleList = () => {
   const { isLoading, data: response } = useQuery('vehicle', getAllVehicles);
+
+  const [vehicles, setVehicles] = useState<VehicleListElement[]>([]);
+
+  useEffect(() => {
+    if (response && response.data) {
+      setVehicles(response.data.data)
+    } 
+  }, [response])
+
+  const removeVehicle = (id: number) => {
+    setVehicles(vehicles.filter(v => v.id !== id))
+  }
   
   if (isLoading) {
-    return TableListInstantiate([]);
+    return TableListInstantiate([], removeVehicle);
   }
 
   if (response) {
-    return TableListInstantiate(response.data.data.map(d => {
-      return {...d, nextService: new Date(d.nextService), type: 'vehicle'}
-    }));
+    return TableListInstantiate(vehicles.map(d => ({...d, nextService: new Date(d.nextService), type: 'vehicle'})), removeVehicle);
   } else {
-    return TableListInstantiate([]);
+    return TableListInstantiate([], removeVehicle);
   }
 }
 
