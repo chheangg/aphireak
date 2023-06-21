@@ -87,7 +87,6 @@ const App = () => {
   }
 
   const onLogin = (username: string, password: string) => {
-    console.log(username, password)
     signInMutation.mutate({ username, password });
   }
 
