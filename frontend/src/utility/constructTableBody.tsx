@@ -102,8 +102,10 @@ export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] |
     }
   }
   return (
-    <Td colSpan={7}>
-      <Text textAlign='center' fontSize='lg' color='gray.500'>Empty...</Text>
-    </Td>
+    <Tr>
+      <Td colSpan={7}>
+        <Text textAlign='center' fontSize='lg' color='gray.500'>Empty...</Text>
+      </Td>
+    </Tr>
   )
 }

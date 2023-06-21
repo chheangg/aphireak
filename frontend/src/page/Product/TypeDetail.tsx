@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import Detail from "../../components/Detail"
-import { useQuery } from "react-query";
-import { getType } from "../../services/typeService";
+import { useMutation, useQuery } from "react-query";
+import { getType, updateType } from "../../services/typeService";
 import useTypeForm from "../../hooks/useTypeForm";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
@@ -13,6 +13,7 @@ const TypeDetail = () => {
   const [type, setType] = useState<Type>()
 
   const { isLoading, data: response } = useQuery(['type-' + id, id], getType)
+  const updateTypeMutation = useMutation(updateType);
   const { FormComponent, formValue } = useTypeForm({ type, isUpdate: true });
 
   useEffect(() => {
@@ -22,7 +23,9 @@ const TypeDetail = () => {
   }, [response])
 
   const onSubmit = () => {
-    console.log(formValue)
+    if (formValue) {
+      updateTypeMutation.mutate(formValue);
+    }
   }
 
   if (isLoading) {

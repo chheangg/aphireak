@@ -22,6 +22,7 @@ import MaintenanceDetail from "./page/MaintenanceRecord/MaintenanceDetail";
 import CustomerDetail from "./page/Customer/CustomerDetail";
 import VehicleDetail from "./page/Vehicle/VehicleDetail";
 import TypeDetail from "./page/Product/TypeDetail";
+import ProductDetail from "./page/Product/ProductDetail";
 
 
 const App = () => {
@@ -66,7 +67,7 @@ const App = () => {
             </Route>
             <Route path='/products'>
               <Route element={<Product />} index />
-              <Route element={<div>id</div>} path=":id" />
+              <Route element={<ProductDetail />} path=":id" />
             </Route>
             <Route path="/types">
               <Route element={<TypeDetail />} path=":id" />

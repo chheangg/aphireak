@@ -5,11 +5,11 @@ import useProductForm from "../../hooks/useProductForm";
 import Form from "../../components/Form";
 
 const ProductForm = () => {
-  const { FormComponent, formValue, type } = useProductForm();
+  const { FormComponent, formValue, type } = useProductForm({ isUpdate: false });
   const newProductMutation = useMutation(createProduct);
 
   const onSubmit = async () => {
-    if (type) {
+    if (formValue && type) {
       newProductMutation.mutate(formValue);
     }
   };

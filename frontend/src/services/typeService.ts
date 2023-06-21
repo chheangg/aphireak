@@ -20,4 +20,4 @@ const updateType = async(type: Type) => {
   return axios.put<Type>(baseUrl + '/' + type.id, type)
 }
 
-export { getAllTypes, createType, getType };
+export { getAllTypes, createType, getType, updateType };
