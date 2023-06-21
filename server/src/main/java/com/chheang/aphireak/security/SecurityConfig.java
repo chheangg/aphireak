@@ -62,6 +62,7 @@ public class SecurityConfig {
                           .requestMatchers("/sign-up").permitAll()
                           .requestMatchers("/login").permitAll()
                           .requestMatchers("/is-init").permitAll()
+                          .requestMatchers("/protected").permitAll()
                           .anyRequest().authenticated();
                 });
 

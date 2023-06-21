@@ -3,6 +3,7 @@ package com.chheang.aphireak.rest;
 import com.chheang.aphireak.entity.Account;
 import com.chheang.aphireak.rest.responses.InitResponse;
 import com.chheang.aphireak.rest.responses.JwtResponse;
+import com.chheang.aphireak.rest.responses.TokenValidResponse;
 import com.chheang.aphireak.security.JwtRequestFilter;
 import com.chheang.aphireak.security.JwtTokenUtil;
 import com.chheang.aphireak.service.SecurityService;
@@ -18,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/")
 public class SecurityController {
@@ -25,7 +28,6 @@ public class SecurityController {
     private UserDetailsService userDetailsService;
     private AuthenticationManager authenticationManager;
     private JwtTokenUtil jwtTokenUtil;
-
     @Autowired
     public SecurityController
             (SecurityService ent, UserDetailsService uds, AuthenticationManager auth, JwtTokenUtil jwt) {
@@ -41,6 +43,22 @@ public class SecurityController {
         return new ResponseEntity<>(
                 new InitResponse(isInitializationMode), HttpStatus.OK
         );
+    }
+
+    @PostMapping("/protected")
+    public ResponseEntity<TokenValidResponse> checkTokenValidity(@RequestBody JwtResponse jwtObj) {
+        try {
+            UserDetails user = userDetailsService.loadUserByUsername(jwtObj.getUsername());
+            boolean isValidToken = jwtTokenUtil.validateToken(jwtObj.getToken(), user);
+
+            return new ResponseEntity<>(
+                    new TokenValidResponse(isValidToken), HttpStatus.OK
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new TokenValidResponse(false), HttpStatus.OK
+            );
+        }
     }
 
     @PostMapping("/sign-up")
