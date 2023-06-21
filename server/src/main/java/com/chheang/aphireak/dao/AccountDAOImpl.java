@@ -16,6 +16,13 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
+    public List<Account> getAccounts() {
+        TypedQuery<Account> query = entityManager
+                .createQuery("FROM Account", Account.class);
+        return query.getResultList();
+    }
+
+    @Override
     public Account findByUsername(String username) {
         TypedQuery<Account> query =
                 entityManager.createQuery("FROM Account WHERE username = :username", Account.class);

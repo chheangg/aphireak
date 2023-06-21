@@ -28,4 +28,9 @@ public class SecurityServiceImpl implements SecurityService {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountDAO.createAccount(account);
     }
+
+    @Override
+    public boolean isInitializationMode() {
+        return accountDAO.getAccounts().size() == 0;
+    }
 }

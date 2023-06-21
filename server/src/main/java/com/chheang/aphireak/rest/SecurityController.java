@@ -38,8 +38,13 @@ public class SecurityController {
 
     @PostMapping("/sign-up")
     public Account createAccount(@RequestBody Account account) {
-        securityService.createAccount(account);
-        return account;
+        boolean isInitializationMode = securityService.isInitializationMode();
+        if (isInitializationMode) {
+            securityService.createAccount(account);
+            return account;
+        } else {
+            throw new RuntimeException();
+        }
     }
 
     @PostMapping("/login")

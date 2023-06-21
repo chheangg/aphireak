@@ -38,6 +38,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional
     public void deleteTypeById(int id) {
         typeDAO.deleteTypeById(id);
     }

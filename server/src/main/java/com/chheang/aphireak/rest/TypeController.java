@@ -48,6 +48,7 @@ public class TypeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<IdResponse> deleteTypeById(@PathVariable int id) {
+        typeService.deleteTypeById(id);
         return new ResponseEntity<>(
                 new IdResponse(id), HttpStatus.ACCEPTED
         );
