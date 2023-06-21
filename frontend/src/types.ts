@@ -115,3 +115,12 @@ export interface MaintenanceDetail {
 export interface DeleteResponse {
   id: number;
 }
+
+export interface InitResponse {
+  initialization: boolean;
+}
+
+export interface TokenResponse {
+  token: string;
+  username: string;
+}

@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react"
+import { Box, Grid } from "@chakra-ui/react"
 
 interface NavbarProps {
   children: string | JSX.Element | JSX.Element[];
@@ -6,7 +6,9 @@ interface NavbarProps {
 
 const Navbar = ({ children } : NavbarProps) => (
   <Box borderBottom='1px solid' borderColor='gray.300' px='1rem' py='0.75rem'>
-    {children}
+    <Grid templateColumns='1fr 1fr'>
+      {children}
+    </Grid>
   </Box>
 )
 

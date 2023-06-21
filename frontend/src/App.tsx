@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { BsFolder2Open } from 'react-icons/bs'
@@ -23,14 +23,103 @@ import CustomerDetail from "./page/Customer/CustomerDetail";
 import VehicleDetail from "./page/Vehicle/VehicleDetail";
 import TypeDetail from "./page/Product/TypeDetail";
 import ProductDetail from "./page/Product/ProductDetail";
+import AccountCard from "./components/AccountCard";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import AuthPage from './page/AuthPage'
+import { checkIsInit, signInServer, signUpServer } from "./services/securityService";
+import AuthCard from "./components/AuthCard";
+import RegistrationForm from "./page/AuthPage/RegistrationForm";
+import LoginForm from "./page/AuthPage/LoginForm";
+import { TokenResponse } from "./types";
 
 
 const App = () => {
+  const [isInit, setIsInit] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [token, setToken] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+
+  const { data: initResponse } = useQuery('init', checkIsInit)
+  const signUpMutation = useMutation(signUpServer)
+  const signInMutation = useMutation(signInServer, {
+    onSuccess: (response) => {
+      setIsLoggedIn(true);
+      if (response && response.data)
+      {
+        setToken(response.data.token);
+        setUsername(response.data.username);
+
+        const accountObj = {
+          token: response.data.token,
+          username: response.data.username,
+        };
+
+        localStorage.setItem('aphireak-token', JSON.stringify(accountObj));
+      }
+    }
+  })
+
+  useEffect(() => {
+    if (initResponse && initResponse.data) {
+      setIsInit(initResponse.data.initialization);
+    }
+  }, [initResponse])
+
+  useEffect(() => {
+    const jsonObj = localStorage.getItem('aphireak-token');
+
+    if (jsonObj) {
+      const accountObj : TokenResponse = JSON.parse(jsonObj);
+
+      if (accountObj.token && accountObj.username) {
+        setIsLoggedIn(true)
+        setUsername(accountObj.username)
+        setToken(accountObj.token)
+      }
+    }
+  }, [])
+
+  const onRegistration = (username: string, password: string) => {
+    signUpMutation.mutate({ username, password })
+    setIsInit(false);
+  }
+
+  const onLogin = (username: string, password: string) => {
+    console.log(username, password)
+    signInMutation.mutate({ username, password });
+  }
+
+  if (isInit) {
+    return (
+      <AuthPage>
+        <AuthCard title='Intialization'>
+          <RegistrationForm onSubmit={onRegistration} />
+        </AuthCard>
+      </AuthPage>
+    )
+  }
+
+  if (!isLoggedIn && !token && !username) {
+    return (
+      <AuthPage>
+        <AuthCard title='Sign in'>
+          <LoginForm onSubmit={onLogin}/>
+        </AuthCard>
+      </AuthPage>
+    )
+  }
+
   return (
     <Flex bgColor='gray.50' h='100vh' maxH='100vh' overflowY='hidden' flexDir='column' color='gray.700'>
       {/* Nav bar */}
       <Navbar>
         <LogoBtn logoImg={logoImg} />
+        <AccountCard username="Ly Eang Chheang" onLogout={() => {
+          setIsLoggedIn(false);
+          setToken("");
+          setUsername("");
+        }} />
       </Navbar>
       <MainLayout>
         {/* This is the fixed sidebar */}
