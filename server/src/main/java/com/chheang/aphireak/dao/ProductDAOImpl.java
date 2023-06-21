@@ -16,11 +16,21 @@ public class ProductDAOImpl implements ProductDAO {
     public ProductDAOImpl(EntityManager ent) {
         entityManager = ent;
     }
-    public List<Product> getProducts(String q) {
-        String queryStr =
+    public List<Product> getProducts(String q, int type) {
+        String queryStrWithGetAll =
                 "FROM Product p WHERE UPPER(p.name) LIKE CONCAT('%', UPPER(:query), '%')";
-        TypedQuery<Product> products = entityManager.createQuery(queryStr, Product.class);
-        products.setParameter("query", q);
+
+        String queryStrWithType = "FROM Product p WHERE p.type.id = :type_id";
+
+        TypedQuery<Product> products = entityManager.createQuery(
+                type == 0 ? queryStrWithGetAll : queryStrWithType
+                , Product.class);
+
+        if (type == 0) {
+            products.setParameter("query", q);
+        } else {
+            products.setParameter("type_id", type);
+        }
         return products.getResultList();
     }
 
