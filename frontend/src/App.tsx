@@ -31,13 +31,15 @@ import { checkIsInit, signInServer, signUpServer } from "./services/securityServ
 import AuthCard from "./components/AuthCard";
 import RegistrationForm from "./page/AuthPage/RegistrationForm";
 import LoginForm from "./page/AuthPage/LoginForm";
-import { TokenResponse } from "./types";
+import { TokenResponse, TokenValidResponse } from "./types";
 import Schedule from "./page/Schedule";
+import axios from "./services/axiosClient";
 
 
 const App = () => {
   const [isInit, setIsInit] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isTokenValidated, setIsTokenValidated] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
@@ -72,12 +74,23 @@ const App = () => {
 
     if (jsonObj) {
       const accountObj : TokenResponse = JSON.parse(jsonObj);
-
-      if (accountObj.token && accountObj.username) {
-        setIsLoggedIn(true)
-        setUsername(accountObj.username)
-        setToken(accountObj.token)
-      }
+      
+      axios.post<TokenValidResponse>('/protected', accountObj).then(data => {
+        if (data && data.data) {
+          if (data.data.valid) {
+            setIsLoggedIn(true)
+            setUsername(accountObj.username)
+            setToken(accountObj.token)
+            setIsTokenValidated(true);
+          } else {
+            setIsLoggedIn(false)
+            setUsername("")
+            setToken("")
+            setIsTokenValidated(false)
+            localStorage.removeItem('aphireak-token')
+          }
+        }
+      })
     }
   }, [])
 
@@ -100,7 +113,7 @@ const App = () => {
     )
   }
 
-  if (!isLoggedIn && !token && !username) {
+  if (!isLoggedIn && !token && !username && !isTokenValidated) {
     return (
       <AuthPage>
         <AuthCard title='Sign in'>
@@ -119,6 +132,7 @@ const App = () => {
           setIsLoggedIn(false);
           setToken("");
           setUsername("");
+          localStorage.removeItem('aphireak-token');
         }} />
       </Navbar>
       <MainLayout>

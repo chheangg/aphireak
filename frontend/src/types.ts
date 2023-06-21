@@ -124,3 +124,7 @@ export interface TokenResponse {
   token: string;
   username: string;
 }
+
+export interface TokenValidResponse {
+  valid: boolean;
+}
