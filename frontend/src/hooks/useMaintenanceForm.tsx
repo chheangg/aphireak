@@ -44,6 +44,7 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
     enabled: productQueryField !== "",
   })
 
+  const [productEnum, setProductEnum] = useState<ProductListElement[]>([]);
   const [queriedCustomer, setQueriedCustomer] = useState<CustomerListElement[]>([]);
   const [queriedProduct, setQueriedProduct] = useState<ProductListElement[]>([]);
   const [customer, setCustomer] = useState<CustomerListElement | Customer>();
@@ -83,24 +84,51 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
     const totalPrice: number = serviceDetails.reduce((p, c) => p + c.priceInCent / 100 * c.quantity , 0)
     setTotalPrice(totalPrice)
   }, [serviceDetails])
+
+  const instantiateProductEnum = (mds : MaintenanceDetail[]) => {
+    const products : ProductListElement[] = [];
+    mds.forEach(md => {
+      if (md.product && typeof md.product !== 'number' && md.product.id) {
+        products.push(md.product as ProductListElement);
+      }
+    })
+    setProductEnum(products)
+  }
+
+  const fixProductListing = (mds : MaintenanceDetail[]) => {
+    return mds.map(md => {
+      if (typeof md.product === 'number') {
+        const product = productEnum.find(p => p.id === md.product);
+        if (product) {
+          return { ...md, product}
+        }
+      }
+
+      return md;
+    });
+  }
   
   useEffect(() => {
     if (isUpdate && maintenance && maintenance.customer && maintenance.vehicle) {
-      setQueriedCustomer([maintenance.customer as CustomerListElement]);
-      setCustomer(maintenance.customer);
-      if (maintenance.customer.vehicles) {
-        const vehicle = maintenance.customer.vehicles.find(v => v.id === maintenance.vehicle as unknown as number);
-        if (vehicle) {
-          setVehicle(vehicle)
+      if (productEnum.length > 0) {
+        setQueriedCustomer([maintenance.customer as CustomerListElement]);
+        setCustomer(maintenance.customer);
+        
+        if (maintenance.customer.vehicles) {
+          const vehicle = maintenance.customer.vehicles.find(v => v.id === maintenance.vehicle as unknown as number);
+          if (vehicle) {
+            setVehicle(vehicle)
+          }
         }
+        setServiceDetails(fixProductListing(maintenance.serviceDetails));
+        setTotalPrice(maintenance.totalCostInCent / 100);
+        setPaid(maintenance.paid)
+        setTimestamp(maintenance.timestamp)
+      }  else {
+        instantiateProductEnum(maintenance.serviceDetails)
       }
-      setServiceDetails(maintenance.serviceDetails);
-      setTotalPrice(maintenance.totalCostInCent / 100);
-      setPaid(maintenance.paid)
-      setTimestamp(maintenance.timestamp)
     }
-  }, [maintenance])
-
+  }, [maintenance, productEnum])
 
   const removeMaintenanceDetail = (id: string) => {
     setServiceDetails(serviceDetails.filter(md => md.id !== id))
@@ -120,64 +148,65 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
   }
 
   const FormHeader = () => 
-    isUpdate && customer && account && vehicle ?
-      (
-        <MaintenanceProfileCard customerName={customer.fullName} accountName={account.username} vehicleName={vehicle.vehicleName} vehicleType={vehicle.vehicleType} />
-      )
-      :
-      (
-        <Flex gap='1.5rem'>
-          <FormControl>
-            <FormLabel>Find Customer</FormLabel>
-            <AutoComplete openOnFocus disableFilter> 
-              <AutoCompleteInput onChange={e => setQuery(e.currentTarget.value)} />
-              <AutoCompleteList>
-                {
-                  queriedCustomer ?
-                    queriedCustomer.map(c =>
-                      <AutoCompleteItem 
-                        key={c.id} 
-                        value={c.fullName}
-                        onClick={() => setCustomer(c)}
-                      >
-                        {c.fullName}
-                      </AutoCompleteItem> 
-                    )
-                    :
-                    null
-                }
-              </AutoCompleteList>
-            </AutoComplete>
-            <FormHelperText>Search for customer by their name or phone number</FormHelperText>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Vehicle</FormLabel>
-            <Select
-              placeholder="Select Type" 
-              onChange={e => setVehicle(matchVehicle(e) || vehicle)} 
-              disabled={customerDetail.isLoading || !customer}
-            >
-                {
-                  selectedCustomer
-                  ? selectedCustomer.vehicles.map(v =>
-                    <option key={v.id} value={v.id}>
-                      {v.vehicleName}
-                    </option>
-                  )
-                  : null
-                }
-            </Select>
-          </FormControl>
-        </Flex>
-      )
+    customer && account && vehicle ?
+    <MaintenanceProfileCard customerName={customer.fullName} accountName={account.username} vehicleName={vehicle.vehicleName} vehicleType={vehicle.vehicleType} />
+    :
+    null
 
   const FormComponent = (
     <Box>
-      <FormHeader />
+      {
+        isUpdate ?
+          <FormHeader />
+          :
+          <Flex gap='1.5rem'>
+            <FormControl>
+              <FormLabel>Find Customer</FormLabel>
+              <AutoComplete openOnFocus disableFilter> 
+                <AutoCompleteInput onChange={e => setQuery(e.currentTarget.value)} />
+                <AutoCompleteList>
+                  {
+                    queriedCustomer ?
+                      queriedCustomer.map(c =>
+                        <AutoCompleteItem 
+                          key={c.id} 
+                          value={c.fullName}
+                          onClick={() => setCustomer(c)}
+                        >
+                          {c.fullName}
+                        </AutoCompleteItem> 
+                      )
+                      :
+                      null
+                  }
+                </AutoCompleteList>
+              </AutoComplete>
+              <FormHelperText>Search for customer by their name or phone number</FormHelperText>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Vehicle</FormLabel>
+              <Select
+                placeholder="Select Type" 
+                onChange={e => setVehicle(matchVehicle(e) || vehicle)} 
+                disabled={customerDetail.isLoading || !customer}
+              >
+                  {
+                    selectedCustomer
+                    ? selectedCustomer.vehicles.map(v =>
+                      <option key={v.id} value={v.id}>
+                        {v.vehicleName}
+                      </option>
+                    )
+                    : null
+                  }
+              </Select>
+            </FormControl>
+          </Flex>
+      }
       <Heading mt='1.5rem' as={chakra.h3} fontSize='1.5rem' color='orange.400'>Product Used</Heading>
       <FormControl mt='1rem'>
         <FormLabel>Find Product</FormLabel>
-        <AutoComplete openOnFocus>
+        <AutoComplete openOnFocus disableFilter>
           <AutoCompleteInput onChange={e => setProductQueryField(e.currentTarget.value)}></AutoCompleteInput>
           <AutoCompleteList>
             {

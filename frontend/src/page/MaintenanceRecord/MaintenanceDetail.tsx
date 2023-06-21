@@ -33,7 +33,8 @@ const MaintenanceDetail = () => {
         formValue.customer.vehicles = []
       }
 
-      console.log(formValue)
+      formValue.serviceDetails.forEach(sd => typeof sd.id === 'string' ? sd.id = 0 : null);
+
       updateMaintenanceMutation.mutate(formValue)
     }
   }

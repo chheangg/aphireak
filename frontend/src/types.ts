@@ -106,8 +106,8 @@ export interface DTO<T> {
 }
 
 export interface MaintenanceDetail {
-  id?: string;
+  id?: string | number;
   quantity: number;
   priceInCent: number;
-  product: ProductListElement | Product;
+  product: ProductListElement | Product | number;
 }

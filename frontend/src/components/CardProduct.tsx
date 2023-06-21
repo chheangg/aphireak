@@ -15,7 +15,7 @@ const CardProduct = ({ maintenanceDetail, onRemove, onChange } : CardProductProp
 
   useEffect(() => {
     if ((quantity !== maintenanceDetail.quantity || price * 100 !== maintenanceDetail.priceInCent) && maintenanceDetail.id) {
-      onChange(maintenanceDetail.id, {
+      onChange(maintenanceDetail.id.toString(), {
         ...maintenanceDetail,
         quantity,
         priceInCent: price * 100
@@ -28,8 +28,8 @@ const CardProduct = ({ maintenanceDetail, onRemove, onChange } : CardProductProp
     <Card bgColor='orange.300'>
       <CardBody>
         <Grid templateColumns='auto 100px' alignItems='center'>
-          <Text color='gray.50' fontSize='1rem' fontWeight='bold'>{maintenanceDetail.product.name}</Text>
-          <Button colorScheme='red' bgColor='red.500' color='gray.50' leftIcon={<MdClose />} onClick={() => onRemove(maintenanceDetail.id ? maintenanceDetail.id : '')}>Remove</Button>
+          <Text color='gray.50' fontSize='1rem' fontWeight='bold'>{typeof maintenanceDetail.product !== 'number' ?  maintenanceDetail.product.name : ''}</Text>
+          <Button colorScheme='red' bgColor='red.500' color='gray.50' leftIcon={<MdClose />} onClick={() => onRemove(maintenanceDetail.id ? maintenanceDetail.id.toString() : '')}>Remove</Button>
         </Grid>
         <Divider my='1rem' />
         <Grid templateColumns='1fr 1fr' gap='1.5rem' fontSize='1rem'>
