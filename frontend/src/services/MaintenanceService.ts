@@ -14,4 +14,7 @@ const createMaintenance = async (maintenance : Maintenance) =>
 const getMaintenance = async ({ queryKey } : QueryFunctionContext<[string, string | null | undefined]>) => 
   axios.get<Maintenance>(baseUrl + `/${queryKey[1]}`);
 
-export { getAllMaintenances, createMaintenance, getMaintenance };
+const updateMaintenance = async (maintenance : Maintenance) =>
+  axios.put<Maintenance>(baseUrl + '/' + maintenance.id, maintenance);
+
+export { getAllMaintenances, createMaintenance, getMaintenance, updateMaintenance };

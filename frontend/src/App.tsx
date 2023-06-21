@@ -18,6 +18,7 @@ import MaintenanceRecord from "./page/MaintenanceRecord";
 import Customer from "./page/Customer";
 import Vehicle from "./page/Vehicle";
 import Product from "./page/Product";
+import MaintenanceDetail from "./page/MaintenanceRecord/MaintenanceDetail";
 
 
 const App = () => {
@@ -49,7 +50,7 @@ const App = () => {
             <Route element={<Navigate to='/maintenances' />} path='/' />
             <Route path='/maintenances'>
               <Route element={<MaintenanceRecord />} index />
-              <Route element={<div>id</div>} path=":id" />
+              <Route element={<MaintenanceDetail />} path=":id" />
             </Route>
             <Route element={<div>Upcoming Maintenance</div>} path='/upcoming-maintenances' />
             <Route path='/customers'>

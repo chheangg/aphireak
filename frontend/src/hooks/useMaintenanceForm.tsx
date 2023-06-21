@@ -12,7 +12,7 @@ import {
   Switch,
   Button
  } from "@chakra-ui/react"
-import { Customer, CustomerListElement, Maintenance, MaintenanceDetail, ProductListElement, Vehicle, VehicleListElement } from "../types"
+import { Account, Customer, CustomerListElement, Maintenance, MaintenanceDetail, ProductListElement, Vehicle, VehicleListElement } from "../types"
 import { AutoComplete, AutoCompleteInput, AutoCompleteItem, AutoCompleteList } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "react-query";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -20,6 +20,7 @@ import { getAllCustomers, getCustomer } from "../services/customerService";
 import { getAllProducts } from "../services/productService";
 import CardProduct from "../components/CardProduct";
 import { v4 as uuidv4 } from 'uuid';
+import MaintenanceProfileCard from "../components/MaintenanceProfileCard";
 
 interface MaintenanceFormHook {
   FormComponent: JSX.Element | JSX.Element[];
@@ -45,13 +46,14 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
 
   const [queriedCustomer, setQueriedCustomer] = useState<CustomerListElement[]>([]);
   const [queriedProduct, setQueriedProduct] = useState<ProductListElement[]>([]);
-  const [customer, setCustomer] = useState<CustomerListElement>();
+  const [customer, setCustomer] = useState<CustomerListElement | Customer>();
   const [vehicle, setVehicle] = useState<VehicleListElement>();
   const [serviceDetails, setServiceDetails] = useState<MaintenanceDetail[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [paid, setPaid] = useState<boolean>(false);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer>();
-  const [timestamp, setTimestamp] = useState<Date>(new Date(Date.now()))
+  const [timestamp, setTimestamp] = useState<Date>(new Date(Date.now()));
+  const [account, setAccount] = useState<Account>({ id: 2, username: 'testing' });
 
   const customerTag = customer ? 'customer' + customer.fullName : '';
 
@@ -86,18 +88,21 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
     if (isUpdate && maintenance && maintenance.customer && maintenance.vehicle) {
       setQueriedCustomer([maintenance.customer as CustomerListElement]);
       setCustomer(maintenance.customer);
-      setVehicle(maintenance.vehicle);
+      if (maintenance.customer.vehicles) {
+        const vehicle = maintenance.customer.vehicles.find(v => v.id === maintenance.vehicle as unknown as number);
+        if (vehicle) {
+          setVehicle(vehicle)
+        }
+      }
       setServiceDetails(maintenance.serviceDetails);
       setTotalPrice(maintenance.totalCostInCent / 100);
       setPaid(maintenance.paid)
       setTimestamp(maintenance.timestamp)
-      console.log(maintenance.vehicle)
     }
   }, [maintenance])
 
 
   const removeMaintenanceDetail = (id: string) => {
-    console.log(id);
     setServiceDetails(serviceDetails.filter(md => md.id !== id))
   }
 
@@ -114,51 +119,61 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
     return null;
   }
 
+  const FormHeader = () => 
+    isUpdate && customer && account && vehicle ?
+      (
+        <MaintenanceProfileCard customerName={customer.fullName} accountName={account.username} vehicleName={vehicle.vehicleName} vehicleType={vehicle.vehicleType} />
+      )
+      :
+      (
+        <Flex gap='1.5rem'>
+          <FormControl>
+            <FormLabel>Find Customer</FormLabel>
+            <AutoComplete openOnFocus disableFilter> 
+              <AutoCompleteInput onChange={e => setQuery(e.currentTarget.value)} />
+              <AutoCompleteList>
+                {
+                  queriedCustomer ?
+                    queriedCustomer.map(c =>
+                      <AutoCompleteItem 
+                        key={c.id} 
+                        value={c.fullName}
+                        onClick={() => setCustomer(c)}
+                      >
+                        {c.fullName}
+                      </AutoCompleteItem> 
+                    )
+                    :
+                    null
+                }
+              </AutoCompleteList>
+            </AutoComplete>
+            <FormHelperText>Search for customer by their name or phone number</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Vehicle</FormLabel>
+            <Select
+              placeholder="Select Type" 
+              onChange={e => setVehicle(matchVehicle(e) || vehicle)} 
+              disabled={customerDetail.isLoading || !customer}
+            >
+                {
+                  selectedCustomer
+                  ? selectedCustomer.vehicles.map(v =>
+                    <option key={v.id} value={v.id}>
+                      {v.vehicleName}
+                    </option>
+                  )
+                  : null
+                }
+            </Select>
+          </FormControl>
+        </Flex>
+      )
+
   const FormComponent = (
     <Box>
-      <Flex gap='1.5rem'>
-      <FormControl>
-        <FormLabel>Find Customer</FormLabel>
-        <AutoComplete openOnFocus disableFilter> 
-          <AutoCompleteInput onChange={e => setQuery(e.currentTarget.value)} />
-          <AutoCompleteList>
-            {
-              queriedCustomer ?
-                queriedCustomer.map(c =>
-                  <AutoCompleteItem 
-                    key={c.id} 
-                    value={c.fullName}
-                    onClick={() => setCustomer(c)}
-                  >
-                    {c.fullName}
-                  </AutoCompleteItem> 
-                )
-                :
-                null
-            }
-          </AutoCompleteList>
-        </AutoComplete>
-        <FormHelperText>Search for customer by their name or phone number</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <FormLabel>Vehicle</FormLabel>
-        <Select
-          placeholder="Select Type" 
-          onChange={e => setVehicle(matchVehicle(e) || vehicle)} 
-          disabled={customerDetail.isLoading || !customer}
-        >
-            {
-              selectedCustomer
-              ? selectedCustomer.vehicles.map(v =>
-                <option key={v.id} value={v.id}>
-                  {v.vehicleName}
-                </option>
-              )
-              : null
-            }
-        </Select>
-      </FormControl>
-      </Flex>
+      <FormHeader />
       <Heading mt='1.5rem' as={chakra.h3} fontSize='1.5rem' color='orange.400'>Product Used</Heading>
       <FormControl mt='1rem'>
         <FormLabel>Find Product</FormLabel>
@@ -207,7 +222,7 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
           <Text fontWeight='bold'>Total Cost</Text>
           <Text>${totalPrice.toFixed(2)}</Text>
       </Flex>
-      <Button type="submit" mt='1rem' colorScheme='orange'>Create Maintenance Record</Button>
+      <Button type="submit" mt='1rem' colorScheme='orange'>{isUpdate ? 'Update' : 'Create'} Maintenance Record</Button>
     </Box>
   )
 
@@ -221,10 +236,9 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
   return {
     FormComponent,
     formValue: {
+      id: maintenance ? maintenance.id : 0,
       customer,
-      account: {
-        id: 2
-      },
+      account,
       vehicle,
       serviceDetails: serviceDetails,
       totalCostInCent: totalPrice * 100,

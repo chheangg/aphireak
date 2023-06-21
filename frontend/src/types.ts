@@ -27,6 +27,7 @@ export interface CustomerListElement {
   url: string
   numberOfVehicles?: number;
   phoneNumber: string;
+  vehicles?: Vehicle[];
   type: 'customer';
 }
 
@@ -74,6 +75,7 @@ export interface MaintenancePrototype {
 
 export interface Account {
   id: number;
+  username: string;
 }
 
 export interface MaintenanceListElement extends MaintenancePrototype {
