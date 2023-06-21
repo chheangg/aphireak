@@ -1,11 +1,10 @@
 import { useMutation, useQuery } from "react-query";
 import Detail from "../../components/Detail";
 import useMaintenanceForm from "../../hooks/useMaintenanceForm";
-import { createMaintenance, getMaintenance, updateMaintenance } from "../../services/maintenanceService";
+import { getMaintenance, updateMaintenance } from "../../services/maintenanceService";
 import { useParams } from "react-router-dom";
 import { CustomerListElement, Maintenance } from "../../types";
 import { useEffect, useState } from "react";
-import { Flex, Spinner} from "@chakra-ui/react";
 import Loading from "../../components/Loading";
 
 const MaintenanceDetail = () => {

@@ -1,4 +1,3 @@
-import { Customer } from "../../types";
 import { useMutation } from "react-query";
 import { createCustomer } from "../../services/customerService";
 import Form from "../../components/Form";

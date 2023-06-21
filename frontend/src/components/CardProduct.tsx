@@ -1,6 +1,6 @@
-import { Card, CardBody, Text, Editable, EditablePreview, EditableInput, Box, Grid, Flex, Divider, Button } from "@chakra-ui/react";
+import { Card, CardBody, Text, Editable, EditablePreview, EditableInput, Box, Grid, Flex, Divider, Button, Icon } from "@chakra-ui/react";
 import { MaintenanceDetail } from "../types";
-import { MdClose } from 'react-icons/md'
+import { MdClose, MdOutlineShoppingCart } from 'react-icons/md'
 import { useEffect, useState } from "react";
 
 interface CardProductProp {
@@ -28,7 +28,10 @@ const CardProduct = ({ maintenanceDetail, onRemove, onChange } : CardProductProp
     <Card bgColor='orange.300'>
       <CardBody>
         <Grid templateColumns='auto 100px' alignItems='center'>
-          <Text color='gray.50' fontSize='1rem' fontWeight='bold'>{typeof maintenanceDetail.product !== 'number' ?  maintenanceDetail.product.name : ''}</Text>
+          <Flex gap='0.5rem' alignItems='center'>
+            <Icon as={MdOutlineShoppingCart} fontSize='1.5rem' color='gray.50' />
+            <Text color='gray.50' fontSize='1rem' fontWeight='bold'>{typeof maintenanceDetail.product !== 'number' ?  maintenanceDetail.product.name : ''}</Text>
+          </Flex>
           <Button colorScheme='red' bgColor='red.500' color='gray.50' leftIcon={<MdClose />} onClick={() => onRemove(maintenanceDetail.id ? maintenanceDetail.id.toString() : '')}>Remove</Button>
         </Grid>
         <Divider my='1rem' />

@@ -4,11 +4,10 @@ import Form from "../../components/Form";
 import { createVehicle } from "../../services/vehicleService";
 
 const VehicleForm = () => {
-  const { FormComponent, formValue } = useVehicleForm();
+  const { FormComponent, formValue } = useVehicleForm({ isUpdate: false });
   const newVehicleMutation = useMutation(createVehicle);
 
   const onSubmit = () => {
-    console.log(formValue);
     newVehicleMutation.mutate(formValue);
   }
 
