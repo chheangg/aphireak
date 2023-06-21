@@ -21,6 +21,7 @@ import Product from "./page/Product";
 import MaintenanceDetail from "./page/MaintenanceRecord/MaintenanceDetail";
 import CustomerDetail from "./page/Customer/CustomerDetail";
 import VehicleDetail from "./page/Vehicle/VehicleDetail";
+import TypeDetail from "./page/Product/TypeDetail";
 
 
 const App = () => {
@@ -68,7 +69,7 @@ const App = () => {
               <Route element={<div>id</div>} path=":id" />
             </Route>
             <Route path="/types">
-              <Route element={<div>id</div>} path=":id" />
+              <Route element={<TypeDetail />} path=":id" />
             </Route>
             <Route element={<div>account</div>} path='/accounts' />
           </Routes>

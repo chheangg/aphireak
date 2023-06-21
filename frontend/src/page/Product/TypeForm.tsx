@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 import useTypeForm from "../../hooks/useTypeForm";
 
 const TypeForm = () => {
-  const { FormComponent, formValue } = useTypeForm();
+  const { FormComponent, formValue } = useTypeForm({ isUpdate: false });
   const newTypeMutation = useMutation(createType);
 
   const onSubmit = async () => {

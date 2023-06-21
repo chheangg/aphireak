@@ -1,9 +1,9 @@
-import { Tr, Td, Link, Button } from "@chakra-ui/react";
+import { Tr, Td, Link, Button, Box, Text } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { Data, MaintenanceListElement, CustomerListElement, ProductListElement, TypeListElement, VehicleListElement } from "../types";
 import { Link as ReachLink, useNavigate } from "react-router-dom";
 
-export const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
+export const constructTableBody = (data: Data[]) : JSX.Element | JSX.Element[] | null => {
   const navigate = useNavigate();
   if (data[0]) {
     switch(data[0].type) {
@@ -101,5 +101,9 @@ export const constructTableBody = (data: Data[]) : JSX.Element[] | null => {
         return null;
     }
   }
-  return null;
+  return (
+    <Td colSpan={7}>
+      <Text textAlign='center' fontSize='lg' color='gray.500'>Empty...</Text>
+    </Td>
+  )
 }

@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { getAllProducts } from "../../services/productService";
 import { ProductListElement } from "../../types";
 
-const TableListInstantiate = (data : ProductListElement[]) => (
+export const TableListInstantiate = (data : ProductListElement[]) => (
   <TableList data={data}>
     <Tr>
       <Th color='gray.50'>Product Name</Th>
