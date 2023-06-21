@@ -19,4 +19,7 @@ const updateVehicle = async (vehicle: Vehicle) =>
 const deleteVehicle = async (id : number) =>
   axios.delete<DeleteResponse>(baseUrl + '/' + id);
 
-export { getAllVehicles, createVehicle, getVehicle, updateVehicle, deleteVehicle };
+const getVehicleWithinDays = async ({ queryKey }: QueryFunctionContext<[string, string | null | undefined]>) =>
+  axios.get<DTO<VehicleListElement>>(baseUrl + '/upcoming?days=' + queryKey[1])
+
+export { getAllVehicles, createVehicle, getVehicle, updateVehicle, deleteVehicle, getVehicleWithinDays };

@@ -32,6 +32,7 @@ import AuthCard from "./components/AuthCard";
 import RegistrationForm from "./page/AuthPage/RegistrationForm";
 import LoginForm from "./page/AuthPage/LoginForm";
 import { TokenResponse } from "./types";
+import Schedule from "./page/Schedule";
 
 
 const App = () => {
@@ -145,7 +146,7 @@ const App = () => {
               <Route element={<MaintenanceRecord />} index />
               <Route element={<MaintenanceDetail />} path=":id" />
             </Route>
-            <Route element={<div>Upcoming Maintenance</div>} path='/upcoming-maintenances' />
+            <Route element={<Schedule />} path='/upcoming-maintenances' />
             <Route path='/customers'>
               <Route element={<Customer />} index />
               <Route element={<CustomerDetail />} path=":id" />
