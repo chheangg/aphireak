@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { CustomerListElement, Maintenance } from "../../types";
 import { useEffect, useState } from "react";
 import { Flex, Spinner} from "@chakra-ui/react";
+import Loading from "../../components/Loading";
 
 const MaintenanceDetail = () => {
   const { id } = useParams();
@@ -38,17 +39,7 @@ const MaintenanceDetail = () => {
   }
 
   if (isLoading) {
-    return (
-      <Flex justifyContent='center'>
-        <Spinner
-          thickness='4px'
-          speed='0.65s'
-          emptyColor='gray.200'
-          color='green.400'
-          size='32'
-        />
-      </Flex>
-    )
+    return <Loading />
   }
 
   return (

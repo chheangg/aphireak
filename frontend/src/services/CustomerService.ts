@@ -14,4 +14,7 @@ const getCustomer = async ({ queryKey }: QueryFunctionContext<[string, string | 
 const createCustomer = async (customer: Customer) => 
   axios.post<Customer>(baseUrl, customer)
 
-export { getAllCustomers, createCustomer, getCustomer };
+const updateCustomer = async (customer: Customer) => 
+  axios.put<Customer>(baseUrl + '/' + customer.id, customer)
+
+export { getAllCustomers, createCustomer, getCustomer, updateCustomer };

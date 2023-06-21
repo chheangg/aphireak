@@ -6,18 +6,19 @@ import Form from "../../components/Form";
 import useCustomer from "../../hooks/useCustomerForm";
 
 const CustomerForm = () => {
-    const { FormComponent, formValue } = useCustomer();
-    const newCustomerMutation = useMutation(createCustomer);
+  const newCustomerMutation = useMutation(createCustomer);
 
-    const onSubmit = async () => {
-      newCustomerMutation.mutate(formValue);
-    };
+  const { FormComponent, formValue } = useCustomer({ isUpdate: false });
 
-    return (
-      <Form onSubmit={onSubmit} title="Customer Creation">
-        {FormComponent}
-      </Form>
-    )
+  const onSubmit = async () => {
+    newCustomerMutation.mutate(formValue);
+  };
+
+  return (
+    <Form onSubmit={onSubmit} title="Customer Creation">
+      {FormComponent}
+    </Form>
+  )
   }
 
 export default CustomerForm;

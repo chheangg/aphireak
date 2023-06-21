@@ -19,6 +19,7 @@ import Customer from "./page/Customer";
 import Vehicle from "./page/Vehicle";
 import Product from "./page/Product";
 import MaintenanceDetail from "./page/MaintenanceRecord/MaintenanceDetail";
+import CustomerDetail from "./page/Customer/CustomerDetail";
 
 
 const App = () => {
@@ -55,7 +56,7 @@ const App = () => {
             <Route element={<div>Upcoming Maintenance</div>} path='/upcoming-maintenances' />
             <Route path='/customers'>
               <Route element={<Customer />} index />
-              <Route element={<div>id</div>} path=":id" />
+              <Route element={<CustomerDetail />} path=":id" />
             </Route>
             <Route path='/vehicles'>
               <Route element={<Vehicle />} index />
