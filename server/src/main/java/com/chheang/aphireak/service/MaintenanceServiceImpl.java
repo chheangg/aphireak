@@ -50,21 +50,18 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         Customer customer = customerDAO.findCustomerById(maintenance.getCustomer().getId());
 
         if (customer == null) {
-            System.out.println("1");
             throw new RuntimeException();
         }
 
         Vehicle vehicle = vehicleDAO.findVehicleById(maintenance.getVehicle().getId());
 
         if (vehicle == null) {
-            System.out.println("2");
             throw new RuntimeException();
         }
 
         Account account = accountDAO.findAccountById(maintenance.getAccount().getId());
 
         if (account == null) {
-            System.out.println("3");
             throw new RuntimeException();
         }
 

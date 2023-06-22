@@ -34,65 +34,85 @@ import LoginForm from "./page/AuthPage/LoginForm";
 import { TokenResponse, TokenValidResponse } from "./types";
 import Schedule from "./page/Schedule";
 import axios from "./services/axiosClient";
+import { AxiosError, isAxiosError } from "axios";
+import { AccountContext } from "./context/AccountContext";
 
 
 const App = () => {
   const [isInit, setIsInit] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isTokenValidated, setIsTokenValidated] = useState<boolean>(false);
-  const [token, setToken] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
+  const [tokenObj, setTokenObj] = useState<TokenResponse | null>();
 
-  const { data: initResponse } = useQuery('init', checkIsInit)
+  const { data: initResponse, error : initError } = useQuery('init', checkIsInit, {
+    onError: () => {
+      setIsInit(true)
+      localStorage.removeItem('aphireak-token')
+    }
+  })
+
   const signUpMutation = useMutation(signUpServer)
   const signInMutation = useMutation(signInServer, {
     onSuccess: (response) => {
       setIsLoggedIn(true);
       if (response && response.data)
       {
-        setToken(response.data.token);
-        setUsername(response.data.username);
-
-        const accountObj = {
-          token: response.data.token,
-          username: response.data.username,
-        };
-
-        localStorage.setItem('aphireak-token', JSON.stringify(accountObj));
+        console.log(response.data, 1);
+        setTokenObj(response.data);
+        setIsTokenValidated(true);
+        localStorage.setItem('aphireak-token', JSON.stringify(response.data));
       }
     }
   })
 
-  useEffect(() => {
-    if (initResponse && initResponse.data) {
-      setIsInit(initResponse.data.initialization);
-    }
-  }, [initResponse])
+  const validateInitState = () => {
+    if (initResponse && initResponse.data && !initError) {
+      setIsInit(initResponse.data.initialization)
+    } 
+  }
 
-  useEffect(() => {
+  useEffect(validateInitState, [initResponse])
+
+  const setAxiosHeadder = () => {
+    if (tokenObj?.token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${tokenObj.token}` 
+    }
+  }
+
+  useEffect(setAxiosHeadder, [tokenObj])
+
+  const validateToken = () => {
     const jsonObj = localStorage.getItem('aphireak-token');
 
     if (jsonObj) {
       const accountObj : TokenResponse = JSON.parse(jsonObj);
-      
-      axios.post<TokenValidResponse>('/protected', accountObj).then(data => {
-        if (data && data.data) {
-          if (data.data.valid) {
-            setIsLoggedIn(true)
-            setUsername(accountObj.username)
-            setToken(accountObj.token)
-            setIsTokenValidated(true);
-          } else {
-            setIsLoggedIn(false)
-            setUsername("")
-            setToken("")
-            setIsTokenValidated(false)
-            localStorage.removeItem('aphireak-token')
+
+      try {
+        axios.post<TokenValidResponse>('/protected', accountObj).then(data => {
+          if (data && data.data) {
+            if (data.data.valid) {
+              setIsLoggedIn(true)
+              setTokenObj(accountObj);
+              setIsTokenValidated(true);
+            } else {
+              setIsLoggedIn(false)
+              setTokenObj(null);
+              setIsTokenValidated(false);
+              localStorage.removeItem('aphireak-token')
+            }
           }
-        }
-      })
-    }
-  }, [])
+        })
+      } catch(error : unknown | Error | AxiosError) {
+        setIsLoggedIn(false)
+        setTokenObj(null);
+        setIsTokenValidated(false);
+        localStorage.removeItem('aphireak-token')
+      }
+    } 
+  }
+
+
+  useEffect(validateToken, [])
 
   const onRegistration = (username: string, password: string) => {
     signUpMutation.mutate({ username, password })
@@ -113,7 +133,7 @@ const App = () => {
     )
   }
 
-  if (!isLoggedIn && !token && !username && !isTokenValidated) {
+  if (!isLoggedIn && !tokenObj && !isTokenValidated) {
     return (
       <AuthPage>
         <AuthCard title='Sign in'>
@@ -129,9 +149,9 @@ const App = () => {
       <Navbar>
         <LogoBtn logoImg={logoImg} />
         <AccountCard username="Ly Eang Chheang" onLogout={() => {
+          setIsTokenValidated(false);
           setIsLoggedIn(false);
-          setToken("");
-          setUsername("");
+          setTokenObj(null);
           localStorage.removeItem('aphireak-token');
         }} />
       </Navbar>
@@ -152,31 +172,33 @@ const App = () => {
          * Each page has listing and form section for creation. 
          */}
         <PageLayout>
-          <Routes>
-            {/* Make /maintnenace the default route on visiting the website */}
-            <Route element={<Navigate to='/maintenances' />} path='/' />
-            <Route path='/maintenances'>
-              <Route element={<MaintenanceRecord />} index />
-              <Route element={<MaintenanceDetail />} path=":id" />
-            </Route>
-            <Route element={<Schedule />} path='/upcoming-maintenances' />
-            <Route path='/customers'>
-              <Route element={<Customer />} index />
-              <Route element={<CustomerDetail />} path=":id" />
-            </Route>
-            <Route path='/vehicles'>
-              <Route element={<Vehicle />} index />
-              <Route element={<VehicleDetail />} path=":id" />
-            </Route>
-            <Route path='/products'>
-              <Route element={<Product />} index />
-              <Route element={<ProductDetail />} path=":id" />
-            </Route>
-            <Route path="/types">
-              <Route element={<TypeDetail />} path=":id" />
-            </Route>
-            <Route element={<div>account</div>} path='/accounts' />
-          </Routes>
+          <AccountContext.Provider value={tokenObj ? tokenObj : { username: '', id: 0, token: '' }}>
+            <Routes>
+              {/* Make /maintnenace the default route on visiting the website */}
+              <Route element={<Navigate to='/maintenances' />} path='/' />
+              <Route path='/maintenances'>
+                <Route element={<MaintenanceRecord />} index />
+                <Route element={<MaintenanceDetail />} path=":id" />
+              </Route>
+              <Route element={<Schedule />} path='/upcoming-maintenances' />
+              <Route path='/customers'>
+                <Route element={<Customer />} index />
+                <Route element={<CustomerDetail />} path=":id" />
+              </Route>
+              <Route path='/vehicles'>
+                <Route element={<Vehicle />} index />
+                <Route element={<VehicleDetail />} path=":id" />
+              </Route>
+              <Route path='/products'>
+                <Route element={<Product />} index />
+                <Route element={<ProductDetail />} path=":id" />
+              </Route>
+              <Route path="/types">
+                <Route element={<TypeDetail />} path=":id" />
+              </Route>
+              <Route element={<div>account</div>} path='/accounts' />
+            </Routes>
+          </AccountContext.Provider>
         </PageLayout>
       </MainLayout>
     </Flex>

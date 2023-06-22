@@ -33,4 +33,9 @@ public class SecurityServiceImpl implements SecurityService {
     public boolean isInitializationMode() {
         return accountDAO.getAccounts().size() == 0;
     }
+
+    @Override
+    public Account findAccount(String username) {
+        return accountDAO.findByUsername(username);
+    }
 }

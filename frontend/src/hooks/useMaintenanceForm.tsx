@@ -15,12 +15,13 @@ import {
 import { Account, Customer, CustomerListElement, Maintenance, MaintenanceDetail, ProductListElement, Vehicle, VehicleListElement } from "../types"
 import { AutoComplete, AutoCompleteInput, AutoCompleteItem, AutoCompleteList } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "react-query";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { getAllCustomers, getCustomer } from "../services/customerService";
 import { getAllProducts } from "../services/productService";
 import CardProduct from "../components/CardProduct";
 import { v4 as uuidv4 } from 'uuid';
 import MaintenanceProfileCard from "../components/MaintenanceProfileCard";
+import { AccountContext } from "../context/AccountContext";
 
 interface MaintenanceFormHook {
   FormComponent: JSX.Element | JSX.Element[];
@@ -33,6 +34,7 @@ interface MaintenanceFormProp {
 }
 
 const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : MaintenanceFormHook => {
+  const tokenObj = useContext(AccountContext)
   const [query, setQuery] = useState<string>("");
   const [productQueryField, setProductQueryField] = useState<string>('')
 
@@ -54,7 +56,7 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
   const [paid, setPaid] = useState<boolean>(false);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer>();
   const [timestamp, setTimestamp] = useState<Date>(new Date(Date.now()));
-  const [account, setAccount] = useState<Account>({ id: 2, username: 'testing' });
+  const [account, setAccount] = useState<Account>({ id: 1, username: 'testing' });
 
   const customerTag = customer ? 'customer' + customer.fullName : '';
 
@@ -84,6 +86,12 @@ const useMaintenanceForm = ({ maintenance, isUpdate } : MaintenanceFormProp) : M
     const totalPrice: number = serviceDetails.reduce((p, c) => p + c.priceInCent / 100 * c.quantity , 0)
     setTotalPrice(totalPrice)
   }, [serviceDetails])
+
+  useEffect(() => {
+    if (tokenObj && tokenObj.id !== 0) {
+      setAccount({ id: tokenObj.id, username: tokenObj.username })
+    }
+  }, [tokenObj])
 
   const instantiateProductEnum = (mds : MaintenanceDetail[]) => {
     const products : ProductListElement[] = [];

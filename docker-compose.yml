@@ -1,7 +1,7 @@
 services:
   server:
     image: aphireak-frontend
-    build: ./frontend/
+    build: ./frontend
     ports: 
       - 8080:80
     volumes:
@@ -10,7 +10,7 @@ services:
       - backend
   backend:
     image: aphireak-backend
-    build: ./server/
+    build: ./server
     environment:
       jwt.secret: javainuse
       spring.datasource.url: jdbc:postgresql://postgres:5432/

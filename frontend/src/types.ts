@@ -123,6 +123,7 @@ export interface InitResponse {
 export interface TokenResponse {
   token: string;
   username: string;
+  id: number;
 }
 
 export interface TokenValidResponse {

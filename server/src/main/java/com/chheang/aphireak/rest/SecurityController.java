@@ -77,8 +77,10 @@ public class SecurityController {
         authenticate(account.getUsername(), account.getPassword());
         final UserDetails userDetails =
                 userDetailsService.loadUserByUsername(account.getUsername());
+        final Account foundAccount = securityService.findAccount(account.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+        System.out.println(foundAccount.getId());
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername(), foundAccount.getId()));
     }
 
     private void authenticate(String username, String password) throws Exception {
